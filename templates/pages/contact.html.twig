@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Contact {% endblock %}
+
+{% block body %}
+
+	<section id="bio">
+
+		<div class="container pb-4">
+
+				<h1>Contact</h1> 
+
+				<div id="form-contact" class="mb-5">
+
+					{% if confirmation %}
+					<p id="envoi-confirmation">{{confirmation}}</p>
+					{% endif %}
+
+					{{form_start(formContact)}}
+
+					{{form_row(formContact.nom, {'label':'Nom', 'attr':{
+						'placeholder':'Nom ...'
+					}} )}}
+
+					{{form_row(formContact.prenom, {'label':'Prénom', 'attr':{
+						'placeholder':'Prénom ...'
+					}} )}}							
+
+					{{form_row(formContact.email, {'label':'Adresse email','attr':{
+						'placeholder':'Adresse email ...'
+					}} )}}
+
+					{{form_row(formContact.content,{ 'label':'Message'
+					})}}
+
+					<button type="submit" class="btn btn-success">Envoyez !</button>
+					{{form_end(formContact)}}
+
+				</div>
+
+		</div>
+	</section>
+
+
+{% endblock %}

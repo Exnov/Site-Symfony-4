@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Messagerie {% endblock %}
+
+{% block body %}
+
+	<div class="container" id="create-mail">
+		<h1>Nouveau message</h1>
+
+		  <section>
+		  
+			{{form_start(messageForm)}}
+
+			{{form_row(messageForm.title, {'label':'Sujet', 'attr':{
+				'placeholder':'Sujet ...'
+			}} )}}
+
+			{{ form_row(messageForm.target) }}
+
+			{{ form_row(messageForm.content)}}
+
+			<button type="submit" class="btn btn-success">Envoyer</button>
+			{{form_end(messageForm)}}
+
+		  </section>
+	</div>
+
+{% endblock %}

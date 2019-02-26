@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} News {% endblock %}
+{% block description %} {{user_management.descrNews}} {%endblock%}
+
+{% block body %}
+
+	<section id="all-news">
+
+		<div class="container">
+			<h1 class="text-align mb-4">News</h1>
+			<div class="row">
+
+				{# début boucle #}
+				{% for news in listNews %}
+
+					<article class="col-sm-6 col-md-4 mb-4">
+						<div class="card bloc-card">
+							<div class="card-header">
+								<h3><a href="{{ path('news_show',{'id':news.id,'titleUrl':news.titleUrl}) }}">{{ news.title }}</a></h3>
+								<small><time datetime="{{ news.publishedAt | date('Y-m-d') }}">{{ news.publishedAt | date('d/m/Y') }}</time></small>
+							</div>
+							<div class="card-body">
+								<a href="{{ path('news_show',{'id':news.id,'titleUrl':news.titleUrl}) }}"><img src="{{ asset('uploads/images/news/'~news.thumbnail) }}" alt="{{ news.title }}" class="card-img-top"/></a>
+							</div>
+							<div class="card-footer">
+								<a class="btn more-read" href="{{ path('news_show',{'id':news.id,'titleUrl':news.titleUrl}) }}">Voir</a>
+							</div>					
+						</div>
+
+					</article>					
+				{% endfor %}
+				{# fin boucle #}	
+
+			</div>
+			<div class="navigation">
+				{{ knp_pagination_render(listNews) }}
+			</div>
+		</div>					
+
+	</section>
+
+{% endblock %}

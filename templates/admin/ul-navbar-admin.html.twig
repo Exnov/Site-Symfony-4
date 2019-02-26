@@ -1,0 +1,88 @@
+		<ul class="{{ulclass}}">
+
+			  <li class="nav-item">
+			    <a class="nav-link"  href="{{ path('admin') }}"><i class="fas fa-user"></i> Utilisateurs</a>
+			  </li>
+
+		      <li class="nav-item dropdown">
+			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLinkNews" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			          <i class="far fa-newspaper"></i> News
+			        </a>
+			        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkNews">
+			        	<a class="dropdown-item" href="{{ path('news_create') }}"><i class="fas fa-plus"></i> Creation</a>
+		          		<a class="dropdown-item" href="{{ path('admin_content',{'slug':'news'}) }}"><i class="far fa-edit"></i> Edition</i></a>
+		          		<a class="dropdown-item" href="{{ path('admin_allsignals',{'slug':'news'}) }}"><i class="fas fa-exclamation-triangle"></i> Commentaires signalés</i></a>
+			        </div>
+			  </li>	
+			  
+			  <li class="nav-item dropdown">
+			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLinkFilms" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			          <i class="fas fa-film"></i> Films
+			        </a>
+			        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkFilms">
+			        	<a class="dropdown-item" href="{{ path('film_create') }}"><i class="fas fa-plus"></i> Creation</a>
+		          		<a class="dropdown-item" href="{{ path('admin_content',{'slug':'films'}) }}"><i class="far fa-edit"></i> Edition</i></a>
+		          		<a class="dropdown-item" href="{{ path('admin_allsignals',{'slug':'films'}) }}"><i class="fas fa-exclamation-triangle"></i> Commentaires signalés</i></a>
+			        </div>	
+			  </li>	
+
+			  <li class="nav-item dropdown">
+			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLinkMusic" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			          <i class="fas fa-music"></i> Musique
+			        </a>
+			        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkMusic">
+			        	<a class="dropdown-item" href="{{ path('music_create') }}"><i class="fas fa-plus"></i> Creation</a>
+		          		<a class="dropdown-item" href="{{ path('admin_content',{'slug':'music'}) }}"><i class="far fa-edit"></i> Edition</i></a>
+		          		<a class="dropdown-item" href="{{ path('admin_allsignals',{'slug':'music'}) }}"><i class="fas fa-exclamation-triangle"></i> Commentaires signalés</i></a>
+			        </div>			        		        
+		      </li>			  
+
+
+		      <li class="nav-item dropdown">
+		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLinkForum" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		          <i class="fas fa-comments"></i> Forum
+		        </a>
+		        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkForum">
+		          <a class="dropdown-item" href="{{ path('admin_topics') }}"><i class="fas fa-sticky-note"></i> Topics</a>
+		          <a class="dropdown-item" href="{{ path('admin_signals') }}"><i class="fas fa-exclamation-triangle"></i> Commentaires signalés</i></a>
+		          <a class="dropdown-item" href="{{ path('admin_categories') }}"><i class="fas fa-tags"></i> Catégories</i></a>
+		        </div>
+		      </li>
+
+			  <li class="nav-item">
+			    <a class="nav-link"  href="{{ path('page_edit',{'slug':'bio'}) }}"><i class="fas fa-star"></i> Bio</a>
+			  </li>			      
+
+			  <li class="nav-item">
+			    <a class="nav-link"  href="{{path('admin_homepage')}}"><i class="fas fa-door-open"></i> Homepage</a>
+			  </li>		
+
+			  <li class="nav-item">
+			    <a class="nav-link"  href="{{path('admin_background')}}"><i class="far fa-image"></i> Backgrounds</a>
+			  </li>	
+
+			  <li class="nav-item">
+			    <a class="nav-link"  href="{{path('admin_logos')}}"><i class="fas fa-flag"></i> Logo/favicon</a>
+			  </li>				  			  	      		
+
+			  <li class="nav-item">
+			    <a class="nav-link"  href="{{ path('page_edit',{'slug':'mentions'}) }}"><i class="fas fa-info-circle"></i> Mentions légales</a>
+			  </li>			      
+
+			  <li class="nav-item">
+			    <a class="nav-link"  href="{{path('admin_social')}}"><i class="fas fa-users"></i> Réseaux sociaux</a>
+			  </li>
+
+			  <li class="nav-item">
+			    <a class="nav-link"  href="{{path('admin_seo')}}"><i class="fas fa-align-justify"></i> SEO</a>
+			  </li>				  			      		      	      
+
+			  <li class="nav-item">
+			    <a class="nav-link"  href="{{path('admin_stats')}}"><i class="fas fa-chart-bar"></i> Statistiques</a>
+			  </li>	
+
+			  <li class="nav-item">
+			    <a class="nav-link"  href="{{path('admin_contact')}}"><i class="fas fa-envelope"></i> Contact</a>
+			  </li>				  	      
+
+		</ul>

@@ -1,0 +1,59 @@
+	<section id="table-topics">
+
+			<table class="table table-hover table-bordered table-striped" id="admin-content">
+
+			<thead>
+			    <tr>
+			      <th scope="col">Titre</th>
+			      <th scope="col" class="intrm">Année de sortie</th>
+			      <th scope="col" class="intrm">Auteur</th>
+			      <th scope="col" class="intrm">Date de création</th>
+			      <th scope="col" class="intrm">Date de publication</th>
+			      <th scope="col" class="intrm">Etat</th>			      
+			      <th scope="col">Edition</th>
+			      <th scope="col" class="intrm">Suppression</th>
+			    </tr>
+		  	</thead>
+
+		  	 <tbody>
+				{% for film in items %}
+				<tr>
+				     <th scope="row"><a href="{{ path('film_show',{'id':film.id,'titleUrl':film.titleUrl}) }}">{{ film.title }}</a></th>
+				     <td class="text-primary intrm">{{ film.year }}</td>
+				     <td class="text-primary intrm">{{ film.authorPseudo }}</td>
+				     <td class="text-primary intrm">{{ film.createdAt | date('d/m/Y')  }}</td>
+
+
+				     {% set datePublication='' %}
+				     {% if film.publishedAt %}
+				     	{% set datePublication= film.publishedAt | date('d/m/Y') %}
+				     {% endif %}				     
+
+				     <td class="text-primary intrm">{{datePublication}}</td>				     
+
+				     {% set etat='brouillon' %}
+				     {% if film.status=='1'%}
+				     	{% set etat='publié' %}
+				     {% endif %}
+
+				     <td class="text-primary intrm">{{ etat }}</td>				     
+
+				     <td class="admin-action-button">
+					    <a type="button" class="admin-edit"  href="{{ path('film_edit',{'id':film.id}) }}">Editer</a>				     	
+				     </td>				     
+				     <td class="admin-action-button intrm">
+					    <a type="button" class="admin-remove"  href="{{ path('film_remove',{'id':film.id}) }}">Supprimer</a>				     	
+				     </td>
+
+				 </tr>
+				{% endfor %}
+
+			</tbody>
+
+		</table>
+
+		<div class="navigation">
+		    {{ knp_pagination_render(refPaginator) }}
+		</div>
+
+	</section>

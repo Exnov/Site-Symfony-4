@@ -1,0 +1,82 @@
+{% extends 'profil/base-profil.html.twig' %}
+
+{% block menu %}
+
+			{#----------------------------------------------------------------#}
+			<ul class="nav nav-tabs">
+			  <li class="nav-item">
+			    <a class="nav-link" href="{{ path('profil_public',{'username':user.username}) }}">Topics</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="{{ path('profil_public_comments',{'username':user.username}) }}">Commentaires</a>
+			  </li>
+			  
+			  {% if autorisation %}
+
+			  <li class="nav-item">
+			  	<a class="nav-link active show" data-toggle="tab" href="#signal">Commentaires signalés</a>
+			  </li>
+
+			  <li class="nav-item">
+			    <a class="nav-link" href="{{ path('profil_signalements_contents',{'username':user.username}) }}">Commentaires signalés hors forum</a>
+			  </li>	
+
+			  {% endif %}
+
+			</ul>
+			{#----------------------------------------------------------------#}
+{% endblock %}
+
+{% block content %}	
+			{#----------------------------------------------------------------#}
+			
+			{% if autorisation %}
+			<div id="myTabContent" class="tab-content">
+
+			  <section class="tab-pane fade active show mt-4 profil-public-contributions">
+
+			  	<p class="profil-public-qtt">{{ reactions | length}} commentaire(s) signalé(s) pour {{nSignalements}} signalements</p>
+
+				<table class="table">
+
+					<thead>
+					    <tr>
+					      <th scope="col" class="intrm">Catégorie</th>
+					      <th scope="col">Sujet</th>					      
+					      <th scope="col" class="intrm">Nb de signalements</th>
+					      <th scope="col" class="intrm">Date dernier signalement</th>
+					      <th scope="col">Edition</th>{# voir le commentaire signalé #}
+					      
+					    </tr>
+				  	</thead>
+
+				  	 <tbody>
+						{% for reaction in reactions %}
+						<tr>
+
+						     <th scope="row" class="intrm">{{reaction.topic.category.category}}</th>
+
+						     <td><a href="{{ path('forum_topic',{'slug':reaction.topic.category.slug, 'id':reaction.topic.id, 'titleUrl':reaction.topic.titleUrl}) }}">{{ reaction.topic.title }}</a></td>
+
+						     <td class="intrm">{{ reaction.signalements | length}}</td>
+
+						     <td class="intrm">{{ (reaction.signalements | last).createdAt | date('d/m/Y')  }}</td> {# double filtres : on recupère la dernière reaction puis sa date#}
+
+						     <td><a href="{{ path('admin_comment_edit',{'id':reaction.id}) }}" class="btn btn-success">Editer</a></td>
+
+
+					     </tr>
+						{% endfor %}
+
+					</tbody>
+
+				</table>			  
+
+			  </section>
+			</div>
+
+			{% endif %}
+		
+			{#----------------------------------------------------------------#}
+
+{% endblock %}

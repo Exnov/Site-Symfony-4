@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ rubrique }} {% endblock %}
+{% block description %} 
+	{% if rubrique == 'Bio' %}
+		{{user_management.descrBio}}
+	{% endif %}
+{%endblock%}
+
+
+{% block body %}
+
+	<section id="bio">
+
+		<div class="container pb-4">
+			<h1 class="text-align mb-4">{{ rubrique }}</h1>
+
+			{% if item %}
+			<article>
+				{{ item.content | raw}}
+				
+			</article>
+			{% endif %}
+		</div>
+		
+	</section>
+
+{% endblock %}

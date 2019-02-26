@@ -1,0 +1,87 @@
+{% extends 'profil/base-profil.html.twig' %}
+
+{% block menu %}
+
+			{#----------------------------------------------------------------#}
+			<ul class="nav nav-tabs">
+			  <li class="nav-item">
+			    <a class="nav-link active show" data-toggle="tab" href="#topics">Topics</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="{{ path('profil_public_comments',{'username':user.username}) }}">Commentaires</a>
+			  </li>
+
+			  {% if autorisation %}
+			  
+			  <li class="nav-item">
+			    <a class="nav-link" href="{{ path('profil_signalements',{'username':user.username}) }}">Commentaires signalés</a>
+			  </li>
+
+			  <li class="nav-item">
+			    <a class="nav-link" href="{{ path('profil_signalements_contents',{'username':user.username}) }}">Commentaires signalés hors forum</a>
+			  </li>	
+
+			  {% endif %}
+
+			</ul>
+			{#----------------------------------------------------------------#}
+{% endblock %}
+
+{% block content %}	
+			{#----------------------------------------------------------------#}
+			<div id="myTabContent" class="tab-content">
+
+			  <section class="tab-pane fade active show mt-4 profil-public-contributions">
+
+			  	<p class="profil-public-qtt">{{ user.topics | length}} topic(s) créé(s)</p>
+
+				<table class="table table-hover table-bordered table-striped">
+
+					<thead>
+					    <tr>
+					      <th scope="col">Catégorie</th>
+					      <th scope="col">Sujet</th>					      
+					      <th scope="col" class="intrm">Nb de commentaires</th>
+					      <th scope="col" class="intrm">Dernier msg</th>
+					      <th scope="col" class="intrm">Crée le</th>
+					    </tr>
+				  	</thead>
+
+				  	 <tbody>
+						{% for topic in topics %}
+						<tr>
+
+						    <th scope="row">{{topic.category.category}}</th>
+
+						    <td><a href="{{ path('forum_topic',{'slug':topic.category.slug, 'id':topic.id, 'titleUrl':topic.titleUrl}) }}">{{ topic.title }}</a></td>
+						     <td class="intrm">{{ topic.reactions | length}}</td>
+
+						    {# on affiche ensuite la date du dernier commentaire s'il y en a, sinon date du message de départ #}
+
+						    {% if topic.reactions | length > 0 %}
+
+						    	<td class="intrm">{{ (topic.reactions | last).createdAt | date('d/m/Y')  }}</td> {# double filtres : on recupère la dernière reaction puis sa date#}
+
+						    {% else %}
+
+						    	<td class="intrm">{{ topic.createdAt | date('d/m/Y')  }}</td>
+
+						    {% endif %}
+						    <td class="intrm">{{ topic.createdAt | date('d/m/Y')}}</td>
+
+					    </tr>
+						{% endfor %}
+
+					</tbody>
+
+				</table>	
+
+				<div class="navigation">
+				    {{ knp_pagination_render(topics) }}
+				</div>
+
+			  </section>
+			</div>
+			{#----------------------------------------------------------------#}
+
+{% endblock %}

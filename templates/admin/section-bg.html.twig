@@ -1,0 +1,59 @@
+	<section  id="table-users">
+
+		<div class="mt-3" id="admin-background">
+
+			{# array pour les labels #}
+			{% set labels = {
+				'general': 'Arrière-plan du site',
+				'connexion': 'Arrière-plan de la page de connexion',
+				'registration': "Arrière-plan de la page d'inscription",
+				} 
+			%}
+
+			{{ form_start(form) }}
+   
+		        {% for bg in form.backgrounds %}
+
+					<div class="form-group">
+
+						<label for="{{ bg.image.vars.id }}"
+						    class='text-white'>
+						    {{ labels[bg.vars.value.wall] }} 
+
+						</label>
+
+					    {# bouton de suppression #}
+					    {% if (bg.vars.value.image) %}					    
+						    <a href='{{ path('admin_background_remove',{'name':bg.vars.name})}}' id="supp-{{bg.image.vars.id}}" class="supp-media"><i class="far fa-trash-alt"></i></a>						   
+					    {% endif %}					
+
+						{{ form_widget(bg.image,{
+						'attr':{
+							'placeholder':'Votre image ...'
+						},						
+						}) }}
+
+						{% set imageInput='' %}
+
+						{% if (bg.vars.value.image) %}
+							<div class="apercu" id="apercu-{{bg.image.vars.id}}">
+									{#--affichage image--#}
+									{% set imageInput=asset('uploads/images/design/'~ bg.vars.value.image) %}
+									<img class="imgpreview" src="{{ imageInput }}"/>
+							</div>	
+						{% endif %}
+
+					</div>
+		       
+		        {% endfor %}
+				   
+				<button type="submit" class="btn btn-success mt-4">
+						Enregistrer les modifications
+
+				</button>
+
+			{{ form_end(form) }}
+
+		</div>
+
+	</section>

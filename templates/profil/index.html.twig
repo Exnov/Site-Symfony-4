@@ -1,0 +1,107 @@
+{% extends 'profil/base-tab.html.twig' %}
+
+{% block menu %}
+
+
+	<ul class="nav nav-tabs">
+	  <li class="nav-item">
+	    <a class="nav-link active show" data-toggle="tab" href="#infos">Infos</a>
+	  </li> 
+	  <li class="nav-item">
+	    <a class="nav-link" href="{{ path('profil_topics') }}">Sujets</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="{{ path('profil_comments') }}">Commentaires</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="{{ path('profil_comments_contents') }}">Commentaires hors forum</a>
+	  </li>	  
+	</ul>
+
+{% endblock %}
+
+{% block content %}		
+
+	<div id="myTabContent" class="tab-content">
+
+	  <section class="tab-pane fade active show mt-4 profil-tabs-general">
+
+	  	{# --------------------------------------------------------------- #}
+
+	  		{# --------------------------------- #}
+			<ul class="nav nav-tabs">
+			  <li class="nav-item">
+			    <a class="nav-link active show" data-toggle="tab" href="#general">Général</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="{{ path('profil_password') }}">Mot de passe</a>
+			  </li>
+			</ul>
+
+			<div id="myUnderTabContent" class="tab-content">
+
+				<div class="tab-pane fade active show" id="general">
+				{# --------------------- #}
+					{{form_start(profilForm)}}
+
+					{{form_row(profilForm.username, {'label':'Nom d\'utilisateur', 'attr':{
+						'placeholder':'Nom d\'utilisateur ...'
+					}} )}}
+					{{form_row(profilForm.email, {'label':'Adresse email','attr':{
+						'placeholder':'Adresse email ...'
+					}} )}}
+
+					{{ form_row(profilForm.image) }}
+
+					{# pour supprimer l'avatar déjà en place #}
+					{% if userImage | length > 0 %}
+						<div class="form-group">
+							<input type="checkbox" name="supp-avatar-saved" id="supp-avatar-saved"/>
+							<label for="supp-avatar-saved" class="ml-2">Supprimer l'avatar</label><br/>
+						</div>
+					{% endif %}	
+					
+					<button type="submit" class="btn btn-success">Enregistrer</button>
+					{{form_end(profilForm)}}
+
+				{# --------------------- #}
+				</div>
+			</div>
+	  </section>
+
+	</div>
+
+{% endblock %}
+
+
+{% block lastsection %}
+	<section>
+	
+		 <div class="container">
+		  <div id="user-rm-user">
+				<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">Supprimer le compte</button>
+		  </div>
+
+		  <!-- Modal -->
+		  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="exampleModalLabel">Suppression du compte</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			        Voulez-vous supprimer définitivement votre compte et toutes vos contributions ?
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+			        <a type="button" class="btn btn-warning" id="supp-talk" href="{{ path('profil_remove',{'username':app.user.username}) }}">Supprimer</a>
+			      </div>
+			    </div>
+			  </div>
+		   </div>
+		</div>
+	</section>
+{% endblock %}

@@ -1,0 +1,132 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+	{% block content %}
+	{% endblock %}
+
+
+	<section class="generic-info">
+			<div class="container after-content">
+				<h4>Commentaires : </h4>
+				{# boucle de critics : messages #}
+				{% for critic in critics %}
+
+					<article class="article-forum mb-4">
+						<div class="metadata">
+							<h4>
+			
+								{% if critic.author.userImage %}
+									<a href="{{ path('profil_public',{'username':critic.author.username}) }}">
+										<img id="avatar-profil" src="{{ asset('uploads/images/' ~ critic.author.userImage.thumbnail) }}" alt="avatar"/>
+									</a>
+								{% else %}
+									<span><i class="fas fa-user"></i></span>	
+								{% endif %}						
+
+								<a href="{{ path('profil_public',{'username':critic.author.username}) }}">{{ critic.author.username }}</a>
+							</h4>
+							<p>
+								Ecrit le {{critic.createdAt | date('d/m/Y') }} à {{critic.createdAt | date('H:i') }}
+							</p>
+						</div>
+						<div class="content mt-3">
+							{{critic.content | raw}}
+						</div>
+
+						<div>
+							{# edition/suppression et signalements #}
+							{% if app.user %}
+								{% if app.user.username==critic.author.username %}
+									<a href="{{ path('critic_comment_edit',{'slug':critic.category, 'id':critic.id}) }}" class="btn btn-success">Editer</a>
+									<a href="{{ path('critic_comment_remove',{'slug':critic.category, 'id':critic.id})}}" class="btn btn-warning">Supprimer</a>
+								{% else %}
+									{% set signal = true %}
+									{% for signalement in critic.criticsignalements %}
+										{% if signalement.critic.id==critic.id and signalement.user.username==app.user.username %}
+											{% set signal = false %}
+										{% endif %}
+									{% endfor %}
+									{% if signal %}
+										<a href="{{ path('critic_comment_signal',{'slug':critic.category, 'id':critic.id}) }}" class="btn btn-warning">Signaler</a>
+									{% else %}
+										<span class="badge badge-danger">Commentaire signalé</span>
+									{% endif %}
+									
+								{% endif %}
+							{% endif %}
+						</div>	
+
+						{#like/delike#}
+						<div>
+							{# partie like #}	
+							<a href="{{ path('critic_comment_like',{'slug':critic.category, 'id':critic.id}) }}" class="btn btn-link reaction-like">
+								{% if app.user and critic.isLikedByUser(app.user) %}
+									<i class="fas fa-thumbs-up"></i>{#pour user#}
+								{% else %}
+									<i class="far fa-thumbs-up"></i>{#pour non user#}
+								{% endif %}
+
+								<span class="reaction-likes">{{ critic.criticLikes | length}}</span>
+		                        <span class="reaction-likes-label">J'aime</span>	
+							</a>							
+
+							<!--modale -->
+						  <div class="modal fade" id="myModal" role="dialog">
+						    <div class="modal-dialog">
+						      <!-- Modal content-->
+						      <div class="modal-content">
+						        <div class="modal-header">         
+						          <h4 class="modal-title">Connectez-vous au site et likez !</h4>
+						          <button type="button" class="close" data-dismiss="modal">&times;</button>
+						        </div>
+						        <div class="modal-body">
+						          Voulez-vous vous connecter ?
+						        </div>
+						        <div class="modal-footer">
+						          <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+						 		    <a type="button" class="btn btn-success" href="{{ path('security_login') }}">Se connecter</a>         
+						        </div>
+						      </div>
+
+						    </div>
+						  </div>					
+							<!-- fin modale -->									
+						</div>			
+					</article>			
+
+				{% endfor %}
+
+				<div class="navigation">
+					{{ knp_pagination_render(critics) }}
+				</div>			
+
+		</div>
+	</section>
+
+	<section id="conversation-response">
+
+		{# formulaire de réponse pour l'utilisateur connecté#}
+		<div class="container mt-5 after-content">
+	
+			{% if app.user %}
+				<h2>Message de {{ app.user.username}}</h2>
+				{{ form_start(criticForm) }}
+
+				{{ form_row(criticForm.content) }}
+
+				<button type="submit" class="btn btn-success">Poster</button>
+
+			{{ form_end(criticForm) }}
+
+			{% else %}
+					<h2>Commenter</h2>
+					<p>Vous ne pouvez pas commenter si vous n'êtes pas connecté</p>
+					<a class="connecting" href="{{ path('security_login') }}">Connexion</a>
+			{% endif %}
+
+		</div>
+
+	</section>
+
+{% endblock %}

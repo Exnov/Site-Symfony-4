@@ -1,0 +1,14 @@
+		<footer>	
+			<div id="social">	
+				<ul>
+					{% for network in user_management.networksFooter %}
+						<li><a href="{{network.url}}" target="_blank">{{network.fontawesome | raw}}</a></li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div id="mentions">
+				<p><a href="{{path('page_show',{'slug':'mentions'})}}">Mentions légales</a> | <a href="{{ path('page_contact') }}">contact</a> | ©XXXXX</p>
+			</div>
+		</footer>
+
+		

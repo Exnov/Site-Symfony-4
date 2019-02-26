@@ -1,0 +1,43 @@
+	<section id="table-reactions">
+
+		<table class="table table-hover table-bordered table-striped" id="admin-discuss">
+
+			<thead>
+			    <tr>
+			      <th scope="col" class="intrm">Catégorie</th>
+			      <th scope="col">Sujet</th>
+			      <th scope="col" class="intrm">Auteur du commentaire</th>
+			      <th scope="col" class="intrm">Nbre de signalements</th>
+			      <th scope="col" class="intrm">Date du commentaire</th>
+			      <th scope="col">Voir</th>
+			      <th scope="col" class="intrm">Suppression</th>
+			    </tr>
+		  	</thead>
+
+		  	<tbody>
+				{% for reaction in reactions %}
+				<tr>
+				     <th scope="row" class="text-primary intrm">{{ reaction.topic.category.category }}</th>
+				     <td><a href="{{ path('forum_topic',{'slug':reaction.topic.category.slug, 'id':reaction.topic.id, 'titleUrl':reaction.topic.titleUrl}) }}">{{ reaction.topic.title }}</a></td>
+				     <td class="intrm"><a href="{{ path('profil_public',{'username':reaction.topic.author.username}) }}">{{ reaction.author.username }}</a></td>{# un seul auteur de commentaire#}
+				     <td class="text-primary intrm">{{ reaction.signalements | length }}</td>
+				     <td class="text-primary intrm">{{ reaction.createdAt | date('d/m/Y')  }} à {{reaction.createdAt | date('H:i') }}</td>
+				     <td class="admin-action-button">
+				        <a class="admin-edit" href="{{ path('admin_signal_show',{'id':reaction.id}) }}">Voir</a>
+				     </td>
+				     <td class="admin-action-button intrm">
+					    <a type="button" class="admin-remove" id="supp-reaction" href="{{ path('admin_comment_remove',{'id':reaction.id} ) }}">Supprimer</a>				     	
+				     </td>
+									     
+				 </tr>
+				{% endfor %}
+
+			</tbody>
+
+		</table>
+
+		<div class="navigation">
+		    {{ knp_pagination_render(reactions) }}
+		</div>
+
+	</section>

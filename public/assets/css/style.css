@@ -1,0 +1,1511 @@
+/*
+-------------------------------------------------------------------------------------
+A-GENERAL
+	1-FONT PERSONNALISEES
+	2-Body
+	3-Barres principales de navigation
+	4-Pagination
+	5-Corps des pages
+	6-Pages News, Films, Music, Bio, et Forums (aussi en admin), et Administration
+	7-Pages forum, Films, Music, Bio, et Forums (aussi en admin)
+	8-Table pour Pages Forum, admin, et profil
+B-PARTICULIER
+	1-Page d'accueil
+	2-Page News
+	3-Page Films
+	4-Page Music
+	5-Page Bio
+	6-Pages S'inscrire et Connexion
+	7-Page S'inscrire
+	8-Page Connexion
+	9-Pages Forum et Forum en admin
+	10-Pages profil
+	11-Pages admin
+	12-Footer
+	13-Contact
+	14-Media Queries
+-------------------------------------------------------------------------------------
+*/
+
+
+
+/*
+=========================================================================================================
+A-GENERAL 
+=========================================================================================================
+*/
+
+/*
+-------------------------------------------------------------------------------------
+1-FONT PERSONNALISEES
+-------------------------------------------------------------------------------------
+*/
+@font-face {
+    font-family: 'xoloniumregular';
+    src: url('../fonts/xolonium/xolonium-regular-webfont.eot');
+    src: url('../fonts/xolonium/xolonium-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/xolonium/xolonium-regular-webfont.woff2') format('woff2'),
+         url('../fonts/xolonium/xolonium-regular-webfont.woff') format('woff'),
+         url('../fonts/xolonium/xolonium-regular-webfont.ttf') format('truetype'),
+         url('../fonts/xolonium/xolonium-regular-webfont.svg#xoloniumregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+/*
+--------------------------------------------------------------
+2-Body
+--------------------------------------------------------------
+*/
+body{
+	background: no-repeat fixed center; 
+	background-color: #111;
+	background-size: cover;
+}
+
+/*
+--------------------------------------------------------------
+3-Barres principales de navigation
+--------------------------------------------------------------
+*/
+
+.navbar-fixed-top{
+	position: fixed;
+	top:0;
+	right: 0;
+	left: 0;
+	z-index: 1030;
+	background-color: #111 !important;
+}
+
+#nav-logo{
+	max-width: 45px;
+	max-height: 40px;
+}
+
+/*navbar sticky pour homepage : cf https://www.w3schools.com/howto/howto_js_navbar_sticky.asp */
+#navbarsticky {
+  z-index: 1500;
+  background-color: #111;
+}
+
+/* The sticky class is added to the navbar with JS when it reaches its scroll position */
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+/*
+--------------------------------------------------------------
+4-Pagination
+--------------------------------------------------------------
+*/
+.navigation{
+	display: flex;
+	justify-content: center;
+}
+
+/*
+--------------------------------------------------------------
+5-Corps des pages
+--------------------------------------------------------------
+*/
+#page-body{
+	padding-top:70px;
+}
+
+/*
+--------------------------------------------------------------
+6-Pages News, Films, Music, Bio, et Forums (aussi en admin), et Administration
+--------------------------------------------------------------
+*/
+/*NOTE FORUMS :
+-forums accueil et forums topics et forum conversation
+-#conversation et #conversation-response sont aussi utilisés dans page de signalement
+-#conversation est aussi utilisé dans page voir topic pour admin
+-generic-talk se calque sur conversation, et utilisé dans voir et édition signalement pour admin
+*/
+/* div container*/
+#all-news .container, #films .container, #music .container, #bio .container, #forums .container, #topics .container, #conversation .container, #conversation-response .container, .generic-talk .container, .generic-info .container{
+	background-color: rgba(0,0,0,0.85);
+	padding-top:40px;
+	margin-bottom: 50px;
+	padding-bottom: 50px;	
+}
+/*h1 en titre de page, et quelques autres*/
+#all-news .container h1, #films .container h1, #music .container h1, #bio .container h1, #forums .container h1, #topics .container h1, #conversation .container h1, #conversation-response .container h2, #conversation-response .container p, 
+.generic-talk .container h1 {
+	color:white;
+}
+
+/*
+--------------------------------------------------------------
+7-Pages forum, Films, Music, Bio, et Forums (aussi en admin)
+--------------------------------------------------------------
+*/
+/*
+-#work-topic ==> création et édition d'un topic
+-#create-mail ==> messagerie : creation mail
+-#read-mail, #answer-mail ==> messagerie : lecture mail
+*/
+#work-topic, #create-mail, #read-mail, #answer-mail{
+	background-color: rgba(0,0,0,0.85);
+	margin-top:40px;
+	margin-bottom:60px;
+	padding: 20px;
+	padding-bottom: 40px;
+	border-radius: 5px;
+	border:2px solid white;	
+}
+
+/*pour les parties commentaires et form commentaire de contents*/
+.after-content{
+	padding-left:30px;
+	padding-right:30px;
+}
+
+.connecting{ /*connexion dans contents aussi*/
+	transition-duration: 1s;
+}
+.connecting:hover{ /*connexion dans contents aussi*/
+	text-decoration: none;
+}
+
+/*iframe YouTube dans content*/
+.youtube-insert{
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.metadata h4 a{
+	text-decoration:none;
+}
+
+/*
+--------------------------------------------------------------
+8-Table pour Pages Forum, admin, et profil
+--------------------------------------------------------------
+*/
+
+#forums table thead, #topics table thead, #profil-topics table thead, #profil-comments table thead, #table-users table thead, #table-topics table thead, #table-reactions table thead, #table-categories table thead{
+	background-color: #0f7864;
+	color: white;
+}
+
+#forums table, #topics table, #profil-topics table, #profil-comments table, #table-users table, #table-topics table, #table-reactions table, #table-categories table{
+	background-color: white;
+}
+
+.profil-public-contributions table thead{
+	background-color: #0f7864;
+	color:white;
+}
+
+.profil-public-contributions table{
+	background-color: white;
+}
+
+/*
+=========================================================================================================
+B-PARTICULIER 
+=========================================================================================================
+*/
+
+/*
+--------------------------------------------------------------
+1-Page d'accueil : homepage;
+--------------------------------------------------------------
+*/
+
+/*---partie 1/3 => vidéo---*/
+header { /*permet à la vidéo d'occuper la hauteur de l'écran*/
+    background: #111;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.l-header__video {
+    width: 100%;
+    height: 100%;
+    /*-o-object-fit: cover;*/
+    object-fit: cover;
+    /*-o-object-position: center center;*/
+    object-position: center center;
+}
+
+/*---partie 2/3 => news---*/
+#top-news{
+	background-size: cover;
+	background-position: center;	
+}
+
+#top-news .container{
+	background-color: rgba(0,0,0,0.85);
+	padding-top:15px;
+	padding-bottom:15px;
+	padding-left:35px;
+	padding-right:35px;
+}
+
+#top-news .container h1{
+	color:white;
+	margin-bottom: 20px;
+}
+
+#more-news{
+	padding-top: 10px;
+	text-align: center;
+}
+
+
+#more-news a{
+	transition-duration: 1s;
+}
+
+#more-news a:hover{
+	color:rgb(248,4,162);
+	background-color: #111;;
+	border-color: #111;;
+}
+
+.l-topNews{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	/*counter-reset: news;*/	
+}
+
+.l-topNews li{
+	-webkit-box-flex: 0;
+	-ms-flex: 0 0 33.33%; /*evolution de la largeur selon taille d'écran*/
+	flex: 0 0 33.33%;	/*evolution de la largeur selon taille d'écran*/
+	position: relative;
+	transition-duration: 1s;
+	border-top: 2px solid #615d5d;
+	border-right: 2px solid #615d5d;
+}
+
+.l-topNews li:hover{ 
+	transform:scale(0.95);
+	-webkit-transform:scale(0.95);		
+}
+
+.l-topNews li a{
+	text-decoration: none;
+}
+
+.box-topNews{
+	display: inline-block;
+	position: relative;
+}
+
+.time-topNews{
+	padding: 10px;
+	position: absolute;
+	top: 0;
+}
+
+.title-topNews{
+	position: absolute;
+	top: 55%;
+	padding: 10px;	
+	max-width:70%;
+}
+
+.thumbnail-topNews{
+	max-width: 100%;
+	height: auto;	
+}
+
+/*---partie 3/3 => promo inscription ---*/
+#section-communaute .container{
+	min-height: 650px;
+	box-shadow: 2px 2px 20px black;
+}
+
+#section-communaute .container p{
+	border-bottom:1px solid #1e1e1e;
+	padding-top: 70px; 
+	padding-bottom: 70px;
+	font-size: 45px;
+	color: white;
+	text-transform: uppercase;
+	text-align: left;
+	background-color: rgba(248,4,162,0.45); 
+	box-shadow: 5px 5px 8px #000;
+
+	transition-duration: 2s;
+}
+
+#section-communaute .container p:hover{
+	background-color: black;
+}
+
+#section-communaute .container p a{
+	text-decoration: none;
+	color: #18BC9C;
+}
+
+#join-us{
+	text-align:center;
+	text-transform: uppercase;
+	margin-top: 20px;
+}
+
+#join-us>a{
+	font-size: 75px;
+	transition-duration: 2s;
+	box-shadow: 5px 5px 8px #000;	
+	background-color:#18bc9c;
+	color:white;
+}
+
+#join-us>a:hover{
+	color:#f804a2;
+	background-color: #111;
+}
+
+/*homepage div logo : apparait sur écran de petite taille*/
+#logo{
+	display: none;
+}
+#logo img{
+	width: 100%;
+}
+
+#logo p{
+	text-align: center;
+	color: #18bc9c;
+	font-family: 'xoloniumregular',Arial,serif;
+	font-size: 0.85rem;
+}
+
+/*
+--------------------------------------------------------------
+2-Page News
+--------------------------------------------------------------
+*/
+
+#all-news .container .row article{
+	border:1px solid #1e1e1e;
+}
+
+.bloc-card{
+	background-color: #111; 
+}
+
+.bloc-card time, .bloc-card p{
+	color:#a5a5a5;
+}
+
+.card-img-top{
+	max-width: 100%;
+	height: auto;		
+}
+
+.card-header h3{
+	font-size: 17px;
+}
+
+.card-header h3 a{
+	text-decoration: none;
+	transition-duration: 2s;
+}
+
+.card-header h3 a:hover{
+	color: #f804a2;
+}
+
+.bloc-card .card-body{
+    background-image: linear-gradient(#111, #18bc9c);	
+}
+
+.bloc-card .card-body a img{
+	transition-duration: 1s;
+	box-shadow: 2px 2px 20px black;
+}
+
+.bloc-card .card-body a img:hover{
+	transform:scale(1.05);
+	-webkit-transform:scale(1.05);	
+}
+
+.bloc-card .card-footer{
+	text-align: center;
+}
+
+.more-read{
+	background-color: #18bc9c;
+	color:white;
+	transition-duration: 1s;
+}
+
+.more-read:hover{
+	background-color: #111;
+	color:#f804a2;	
+}
+
+/* page individuelle d'une News, d'un film, d'un album*/
+.generic-info .container{
+	background-color: rgba(255,255,255,0.95);
+	padding-top:40px;
+	padding-bottom: 50px;
+	margin-bottom: 50px;		
+}
+
+.generic-header{
+	margin-bottom: 10px;
+	padding-right: 20px;
+	padding-left: 20px;	
+}
+
+.generic-title{
+	background-color: rgba(15,120,100,0.85);
+	color:white;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
+.generic-body{
+	padding-right: 20px;
+	padding-left: 20px;	
+}
+
+.generic-cover, .cover-alter{
+	text-align: center;
+}
+
+.generic-cover{
+	background-size: cover !important;
+}
+
+.cover-alter{
+	padding-right: 20px;
+	padding-left: 20px;
+}
+
+.generic-cover img{
+	max-height:450px;
+	max-width: 100%;
+	box-shadow: 2px 2px 20px black;
+	transition-duration: 2s;
+	border:4px solid white;
+}
+
+.generic-cover img:hover{ 
+	transform:scale(1.05);
+	-webkit-transform:scale(1.05);	
+}
+
+.generic-content{
+	margin-top: 40px;
+}
+
+/*
+--------------------------------------------------------------
+3-Page Films
+--------------------------------------------------------------
+*/
+
+.l-films{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	/*counter-reset: news;*/	
+}
+
+.l-films li{
+	-webkit-box-flex: 0;
+	-ms-flex: 0 0 33%;
+	flex: 0 0 33%;	
+	border-right: 1px solid #1e1e1e;
+	border-bottom: 1px solid #1e1e1e;
+	position: relative;
+	padding-left:15px;
+	transition-duration: 1s;
+}
+
+.l-films li:hover{ 
+	transform:scale(1.05);
+	-webkit-transform:scale(1.05);	
+	
+}
+
+.l-films li a{
+	text-decoration: none;
+}
+
+.thumbnail-film{
+	max-width: 100%;
+	height: auto;	
+	border-top:2px solid white;	
+	border-left:2px solid white;	
+	border-right:2px solid white;	
+}
+
+/*
+--------------------------------------------------------------
+4-Page Music
+--------------------------------------------------------------
+*/
+#music .container article{
+	padding-left: 15px;
+}
+#music .container article h3{
+	font-size: 17px;
+}
+
+.thumbnail-music{
+	max-width: 100%;
+	height: auto;	
+	border:2px solid white;
+	border-radius:5%;
+	transition-duration: 1s;
+}
+
+.thumbnail-music:hover{ /*pareil que .l-films li*/
+	transform:scale(1.05);
+	-webkit-transform:scale(1.05);	
+}
+
+.album{
+	border-bottom: 1px solid #1e1e1e;
+	border-top: 1px solid #1e1e1e;
+	padding-bottom: 20px;
+	padding-top: 20px;	
+}
+
+.playlist-music{
+	border:2px solid #5c5b5b;
+}
+
+.cover-alter img{
+	max-height: 400px;
+	max-width:100%;
+	box-shadow: 2px 2px 20px black;
+	border:4px solid white;
+	transition-duration: 1s;
+}
+
+.cover-alter img:hover{ /*pareil que .l-films li*/
+	transform:scale(1.05);
+	-webkit-transform:scale(1.05);	
+	border:4px solid rgba(15,120,100,0.85);
+}
+
+/*specifique à Music en page description album*/
+.album-playlist{
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.album-playlist>div{
+	max-height: 400px;
+}
+
+/*
+--------------------------------------------------------------
+5-Page Bio
+--------------------------------------------------------------
+*/ 
+
+#bio .container article{
+	background: white;
+	border-radius: 25px;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	padding: 40px;
+	box-shadow: 2px 2px 5px inset;
+}
+
+#bio .container article p{
+	color:black;
+}
+
+#bio .container article img{
+	border-radius: 5px;
+	box-shadow: 2px 2px 5px;
+	max-width: 100%;
+	height: auto !important;	
+	transition-duration: 1s;	
+}
+
+#bio .container article img:hover{
+	transform: scale(0.85);
+	-webkit-transform:scale(0.85);	
+	box-shadow: 2px 2px 15px;
+
+}
+
+/*pour les commentaires dans contents, forum, messagerie interne*/
+#cke_1_contents{
+	height:200px !important;
+}
+
+/*pour les autres*/
+form[name="news"] #cke_1_contents, form[name="film"] #cke_1_contents, form[name="music"] #cke_1_contents, form[name="bio"] #cke_1_contents, form[name="mentions"] #cke_1_contents{
+	height:500px !important;
+}
+
+/*customisation css ckeditor */
+/*
+#cke_1_contents{
+	height:500px !important;
+}
+*/
+
+/*pour les commentaires dans contents, forum, messagerie interne*/
+/*
+#conversation-response #cke_1_contents, #work-topic #cke_1_contents, #answer-mail #cke_1_contents, #create-mail #cke_1_contents{
+	height:200px !important;
+}
+*/
+
+/*
+--------------------------------------------------------------
+6-Pages S'inscrire et Connexion
+--------------------------------------------------------------
+*/
+.bg-connexion #page-body, .bg-inscription #page-body{
+	padding-bottom: 100px;
+	padding-top:110px;
+}
+
+#inscription .container h1, #connexion .container h1{
+	color:white;
+	text-shadow: 2px 2px 8px #000;
+}
+
+#inscription .container label, #connexion .container label{ 
+	color:#a5a5a5;
+}
+
+#form-inscription, #form-connexion{
+	max-width: 500px;
+	margin: auto;
+	background-color: rgba(0,0,0,0.85);
+	padding:20px;
+	border-radius: 5%;	
+	box-shadow: 2px 2px 20px;
+}
+
+#connexion p a{
+	text-decoration: none;
+	transition-duration: 1s;
+}
+
+#connexion p a:hover{
+	color: #f804a2;
+}
+
+/*
+--------------------------------------------------------------
+7-Page S'inscrire
+--------------------------------------------------------------
+*/
+/*--- body perso de la page---*/
+.bg-inscription{
+	background: no-repeat fixed center; 
+	background-color: #111;
+	background-size: cover;
+}
+
+#subscribe-invite{
+	color:grey;
+}
+
+/*
+--------------------------------------------------------------
+8-Page Connexion
+--------------------------------------------------------------
+*/
+/*--- body perso de la page---*/
+.bg-connexion{
+	background: no-repeat fixed center; 
+	background-color: #111;
+	background-size: cover;
+}
+
+/*
+--------------------------------------------------------------
+9-Pages Forum et Forum en admin, et profil public
+--------------------------------------------------------------
+*/
+
+/*page forums, page topics et page profil public*/
+#forums table a, #topics table a, #contributions-user table a{
+	text-decoration: none;
+	transition-duration: 1s;
+}
+
+#forums table a:hover, #topics table a:hover, #contributions-user table a:hover{
+	color:#f804a2;
+}
+
+/*---forum conversation et administration (edition signalement) et forum (création et édition d'un topic) ---*/
+#conversation-response .container form .form-group label, #admin-edit-signal form .form-group label, #work-topic .form-group label{
+	color:grey;
+}
+
+/*---forum conversation---*/
+.article-forum{
+	border:1px solid black;
+	padding:10px;
+	border-radius:5px;
+	background-color: #586f7c; 
+}
+
+.article-forum:nth-child(even){
+	background-color: #41515b;
+}
+
+.article-forum div.metadata{
+	border-bottom:0.0625rem solid #c6c6d0;
+	color:white;
+}
+
+.article-forum div.metadata p{
+	color:black;
+}
+
+/*---pour administration : avec edition signalement---*/
+.article-forum div.content, #admin-edit-signal p, #work-topic h1{
+	color:white;
+}
+
+/*
+--------------------------------------------------------------
+10-Pages profil
+--------------------------------------------------------------
+*/
+/*---Pages profil et profil public*/
+#profil .container, .profil-public{
+	padding-top: 40px;
+	padding-bottom: 40px;
+}
+
+/*---Rubrique 1/3 => profil---*/
+.identity{ 
+	background-color: rgba(0,0,0,0.85);
+	padding: 10px;
+	border:2px solid white;
+	border-radius: 25px;
+	margin-bottom: 40px;
+}
+
+.identity h1{
+	color:white;
+}
+
+#avatar-profil{
+	max-width: 50px;
+	max-height: 100%;
+	border-radius: 50%;
+	margin-left:10px;
+	margin-right:10px;
+}
+
+.profil-body{
+	background-color: rgba(0,0,0,0.85); 
+	border:2px solid white;
+	margin-bottom: 20px; 
+	border-radius: 5px;
+}
+
+.profil-body ul, .profil-tabs-general ul{
+	padding-bottom: 1px;
+}
+
+.profil-body ul li .nav-link, #contributions-user ul li .nav-link{ /*pour ne pas avoir les coins arrondis par défaut pour les tabs; selectionne les tabs généraux, et dans tab1 (tab1.1 et tab1.2)*/
+	border-radius:0;
+}
+
+.profil-body>ul li .nav-link.active{ /*selectionne uniquement l'onglet actif dans tab principal*/
+	background-color: #b0b3b4;
+}
+
+#profil-topics h4, #profil-comments h4{
+	color:white;
+}
+
+#profil-topics table a, #profil-comments table a{
+	text-decoration: none;
+	transition-duration: 1s;
+}
+
+#profil-topics table a:hover, #profil-comments table a:hover{
+	color:#f804a2;
+}
+
+/*---tab 1---*/
+/*---form general (tab1.1) et form password (tab1.2)---*/
+#general form, #password form{
+	padding-top:20px;
+	padding-bottom:30px;
+}
+
+#general form .form-group, #password form .form-group{
+	padding-left:20px;
+	padding-right:20px;
+}
+
+#general form button, #password form button{ /*bouton de soumission*/
+	margin-left:20px;
+}
+
+#general form .form-group label, #password form .form-group label{
+	color:white;
+}
+
+.profil-tabs-general ul li .nav-link.active{ /*selectionne uniquement l'onglet actif dans tab 1*/
+	background-color: #d6dadc;
+}
+
+/*---tab2 et tab3 + profil public part 2 : contributions de l'user---*/
+#profil-topics, #profil-comments, .profil-public-contributions{
+	padding-left:15px;
+	padding-right:15px;
+	padding-bottom: 30px;
+}
+
+.profil-topic-supp, .profil-comment-edit, .profil-comment-supp{ /*pour centrer les boutons de suppressions*/
+	text-align: center;
+}
+
+/*--Rubrique 2/3 => profil public--*/
+/*regroupe sections activité et contributions*/
+.implication{
+	margin-bottom:20px; 
+}
+
+/*profil public part 1 et part 2*/ 
+#activity-user, #contributions-user{
+	background-color: rgba(0,0,0,0.85);
+	padding:10px;
+	border: 2px solid white;
+	border-radius: 5px;
+}
+
+/* + messagerie : Rubrique 3/3 => Messages */
+#activity-user h4, #contributions-user h4, .metadata-mail, .content-mail{
+	padding:10px;
+}
+
+/*profil public part 1 : activité de l'user*/
+#activity-user{
+	margin-bottom:40px;
+}
+
+#activity-user h4{
+	background-color: #FFC300;
+}
+
+#activity-user table{
+	background-color: white;	
+	margin-bottom: 0;
+}
+
+#contributions-user h4{
+	background-color: #FF5733;
+}
+
+.profil-public-qtt{
+	color:white;
+}
+
+#avatar-medium{
+	max-width: 140px;
+	max-height: 100%;
+    padding: 10px;
+	border-radius: 50%;
+}
+
+#ancre-avatar-medium:hover{
+	text-decoration: none;
+}
+
+/*---Rubrique 3/3 => Messages ---*/
+/*messagerie*/
+#box-mail{
+	padding:15px;
+}
+
+#box-mail table thead{
+	background-color: #0f7864;
+	color:white;
+}
+
+#box-mail h4, #create-mail h1, #answer-mail h4{
+	color:white;
+}
+
+#recus table tbody, #envoyes table tbody{
+	background-color: white;
+}
+
+#recus table tbody a, #envoyes table tbody a{
+	text-decoration: none;
+	transition-duration: 1s;
+}
+
+#recus table tbody a:hover, #envoyes table tbody a:hover{
+	color: #f804a2;
+}
+
+.box-mail-supp{
+	text-align: center;
+}
+
+#create-mail label, #answer-mail  .form-group label{
+	color:grey;
+}
+
+.article-mail{
+	border-radius:5px;
+}
+
+.metadata-mail{
+	padding-bottom:5px;
+}
+
+.metadata-mail p{
+	border-bottom: 1px solid white;
+}
+
+.content-mail{
+	padding-top:5px;
+}
+
+.content-mail .mention-title{
+	font-weight: bold;
+}
+
+.mail-by-me{
+	background-color: #586f7c;
+}
+
+.mail-by-you{
+	background-color: #41515b;
+}
+
+.marker-mail{
+	background-color: black;
+}
+
+/**/
+#user-rm-user{
+	background: #111;
+	margin-bottom: 20px;
+	text-align: center;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	border: 1px solid white;
+	border-radius: 5px;	
+}
+
+/*
+--------------------------------------------------------------
+11-Pages admin
+--------------------------------------------------------------
+*/
+.bg-admin #page-body{
+	background-color: #1e1e1e;
+}
+
+#title-admin{
+	color: white;
+	margin-top: 30px;
+	padding-left: 2rem;
+}
+
+#title-admin span{
+	color:#f804a2;
+}
+
+.wrapper-admin{
+	padding-bottom:100px;
+	display: flex;
+}
+
+.wrapper-admin aside{
+	flex: 0 0 15%;
+}
+
+.wrapper-admin aside ul{
+	display: flex;
+	flex-direction: column;
+}
+
+.wrapper-admin tbody{
+	background-color: white;
+}
+
+.admin-edit{
+	color:#3383ff;
+}
+
+.admin-remove{
+	color: #FF5733;
+}
+
+.admin-edit:hover, .admin-remove:hover{
+	text-decoration: none;
+}
+
+.wrapper-admin section{
+	flex: 0 0 85%; 
+	padding-left: 2rem;
+	padding-right: 2rem;
+}
+
+.navigation-admin{
+	display: flex;
+	justify-content: flex-start;
+}
+
+/*barre de recherche*/
+#block-search-parent{
+	position: relative;
+	padding-left: 2rem;
+}
+
+#results{
+	top:80%;
+	position: absolute;
+	background-color: white;
+	width:150px;
+}
+
+#results div{
+	padding-left:5px;
+}
+
+#results div:hover{
+	background-color: grey;
+	cursor:pointer;
+}
+
+#route-search{
+	display: none;
+}
+
+/*administration statistiques*/
+#admin-stats h4{
+	background-color: #0f7864;
+}
+
+/*administration : creation et modification d'un content : apercu de l'image*/
+#apercu{ 
+	text-align: center;
+}
+#imgpreview, .imgpreview{ /* .imgpreview pour les previews de homepage dans admin */
+	max-width: 400px;
+	max-height: 100%;	
+}
+
+/*administration homepage*/
+#admin-homepage form .form-group:nth-child(1n+2){
+	margin-top: 40px;
+}
+
+.apercu{ /* .apercu pour les previews de homepage dans admin */
+	padding-top:20px;
+	text-align: center;
+}
+
+.supp-media{
+	color:white;
+	background-color: red;
+	padding-left:10px;
+	padding-right:10px;
+	padding-top:5px;
+	padding-bottom:5px;
+	margin-left:10px;
+	border-radius: 5%;
+}
+
+/*administration reseaux sociaux et seo*/
+#confirm-social{
+	display: none;
+	background-color: #f804a2;
+}
+
+#social-admin legend{
+	background-color: #149a80;
+}
+
+/*administration music*/
+#t-music-admin .intrm-first{
+	font-size: 0.75rem;
+}
+
+/*
+--------------------------------------------------------------
+12-Footer
+--------------------------------------------------------------
+*/
+footer{	
+	color:white;
+	background-color: #111;
+	height: 180px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;	
+}
+
+#social{
+	display: flex;
+	justify-content: center;
+}
+
+#social ul{
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0;	
+}
+
+#social li a i{
+	font-size: 30px;
+	padding:10px;
+}
+
+#mentions{
+	text-align: center;
+}
+
+#mentions p{
+	color:#18BC9C;
+}
+
+#mentions p a{
+	text-decoration: none;
+	transition-duration: 1s;
+}
+
+/*
+--------------------------------------------------------------
+13-Contact
+--------------------------------------------------------------
+*/
+#envoi-confirmation{
+	text-align: center;
+	background: #f804a2;
+	color: white;
+}
+
+#form-contact{
+	max-width: 500px;
+	margin: auto;
+	background-color: rgba(255,255,255,0.85);
+	padding:20px;
+	border-radius: 5%;	
+	box-shadow: 2px 2px 20px;
+}
+
+/*navbar admin small*/
+#navbar-admin-small{
+	display: none;
+}	
+
+/*
+--------------------------------------------------------------
+14-Media Queries :
+- 1128px
+- 992px, 960px
+- 870px
+- 768px, 720px
+- 620px, 600px
+- 545px, 525px, 515px, 500px
+- 470px, 430px, 424px, 414 px, 400 px
+- 398 px, 390 px, 340 px, 305 px, 300 px
+- 230 px, 200 px
+--------------------------------------------------------------
+*/
+
+/*page admin Music*/
+@media all and (max-width: 1128px){
+	#t-music-admin .intrm-first{
+		display: none;
+	}
+}
+
+/*Page admin :changement de navbar admin*/
+@media all and (max-width: 992px){
+	#title-admin, #navbar-admin-large{
+		display: none;
+	}
+	#navbar-admin-small{
+		display: block;
+		background-color: #0f7864;
+		top:10px;
+	}	
+
+	#navbar-admin-small .navbar-brand span{
+			color:#1e1e1e;
+	}
+
+	#block-search-parent{
+		top:20px;
+	}
+
+	.wrapper-admin section{
+		flex:0 0 100%;
+	}
+
+	#navbar-admin-small .navbar-nav .nav-link:hover, #navbar-admin-small .navbar-nav .nav-link:focus{
+		color:black;
+	}
+}
+
+/*Page admin(albums) */
+@media all and (max-width: 960px){
+	#table-topics{
+		font-size: 0.75rem;
+	}
+}
+
+
+/*Page Accueil : section Top News*/
+@media all and (max-width: 870px){
+	.l-topNews li{ 
+		-ms-flex: 0 0 50%; /*evolution de la largeur selon taille d'écran*/
+		flex: 0 0 50%;	/*evolution de la largeur selon taille d'écran*/
+	}
+}
+
+/*--- Pages Music/films et pages des articles : dans news, music, films, et profil public, profil comments et homepage ---*/
+@media all and (max-width: 768px){
+	.playlist-music {
+		margin-top:20px;
+		margin-left:15px;
+		margin-right: 15px;
+	}
+	.l-films li{
+		flex:0 0 50%;
+		-ms-flex::0 0 50%;
+	}
+	/*page des articles*/
+	.generic-content p img{
+		height:auto !important;
+		width:100%!important;
+	}
+
+	.profil-public-contributions .intrm, #profil-comments .intrm, .l-header__video{
+		display: none;
+	}
+
+	header{
+		height:auto;
+		padding-top:20px;
+	}
+	#logo{
+		display: block !important;
+	}
+}
+
+/*pages admin*/
+@media all and (max-width: 720px){
+	#table-users, #table-reactions{
+		font-size: 0.75rem;
+	}
+}
+
+/*Page admin forum et contact */
+@media all and (max-width: 620px){
+	#admin-discuss .intrm{
+		display: none;
+	}
+}
+
+/*Page admin news, films, music */
+@media all and (max-width: 600px){
+	#admin-content .intrm, #t-music-admin .intrm{
+		display: none;
+	}
+}
+
+/*Page admin commentaires signalés de : news, films, music : */
+@media all and (max-width: 545px){
+	#admin-content-signals .intrm{
+		display: none;
+	}
+}
+
+/*page profil sujets :  */
+@media all and (max-width: 525px){
+	#profil-topics .intrm{ 
+		display: none;
+	}
+}
+
+/*Page Accueil : section Top News*/
+@media all and (max-width: 515px){
+	.l-topNews li{ 
+		-ms-flex: 0 0 100%; /*evolution de la largeur selon taille d'écran*/
+		flex: 0 0 100%;	/*evolution de la largeur selon taille d'écran*/
+	}
+}
+
+/*Page admin users et stats */
+@media all and (max-width: 500px){
+	#admin-users .intrm{
+		display: none;
+	}
+	/*stats*/
+	#graph-year{
+		display: flex;
+		flex-direction: column;
+		align-items: baseline;
+	}
+	#validation-graph-search{
+	    margin-top: 10px;
+	    margin-left: 0 !important;
+	}	
+}
+
+/*Pages admin pour inputs de : homepage, backgrounds, et logo/favicon */
+@media all and (max-width: 470px){
+	.imgpreview {
+	    max-width: 100% !important;
+	}
+}
+
+/*Pages Accueil/films/catégories(forum), messagerie */
+@media all and (max-width: 430px){
+	#section-communaute .container p{
+		font-size: 2rem;
+	}
+	.l-films li{
+		flex:0 0 100%;
+		-ms-flex::0 0 100%;
+	}	
+	#topics .intrm, #recus .intrm, #envoyes .intrm{
+		display: none;
+	}	
+}
+
+/*Page messagerie, page forum conversation */
+@media all and (max-width: 424px){
+	#box-mail a, #conversation .container>div a{
+		margin-bottom:10px;
+	}
+
+	#conversation .container>div{
+		display: flex;
+		flex-direction: column;
+		align-items: baseline;
+	}
+}
+
+/*barre de recherche*/
+@media all and (max-width: 414px){
+	#validation-search{
+		margin-left:0px !important;
+		margin-top: 10px;
+	}
+}
+
+/*--- Page des Forums ---*/
+@media all and (max-width: 400px){
+	#forums .intrm{
+		display: none;
+	}
+}
+
+/*page Messagerie: lecture mail*/
+@media all and (max-width: 398px){
+	#read-mail>div{
+		display: flex;
+		flex-direction: column;
+		align-items: baseline;
+	}
+
+	#read-mail>div a{
+		margin-bottom: 10px;
+	}
+}
+
+/*page Admin forum categories*/
+@media all and (max-width: 390px){
+	#admin-categories .intrm{
+		display: none;
+	}
+}
+
+/*Pages admin voir signals(news,films,music,forum)*/
+@media all and (max-width: 340px){
+
+	.generic-talk h1{
+		font-size: 1.95rem;
+	}
+}
+
+/*page admin pour inputs de : homepage, backgrounds, et logo/favicon*/
+@media all and (max-width: 305px){
+
+	#admin-homepage .custom-file, #admin-background .custom-file, #admin-logos .custom-file{
+		margin-top: 10px;
+	}
+}
+
+/*--- Page Accueil---*/
+@media all and (max-width: 300px){
+	.title-topNews{
+		position: relative;
+		max-width: 100%;
+	}
+	.l-topNews li{
+		border-right: none;
+	} 
+}
+
+/*--- Pages Connexion/Inscription, profil public, forum conversation, voir signals(news,films,music,forum) ---*/
+@media all and (max-width: 230px){
+	#inscription .container h1, #connexion .container h1{
+		font-size:2rem;
+	}
+	#activity-user table{
+		font-size: 0.75rem;
+	}
+
+	.article-forum div:nth-child(3) a{
+		margin-bottom: 10px;
+	}
+
+	#admin-signals-actions{
+		display: flex;
+		flex-direction: column;
+		align-items: baseline;
+	}
+}
+
+/*--- Pages profil ---*/
+@media all and (max-width: 200px){
+	#profil .profil-body ul li a {
+		padding-left:5px;
+		padding-right: 5px;
+		font-size: 0.75rem;
+	}
+
+	#profil .identity h1, #profil .profil-body h4{
+		font-size: 0.95rem;
+	}
+}
+
+
+/*FIN CSS*/

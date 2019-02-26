@@ -1,0 +1,70 @@
+{% extends 'profil/base-messagerie.html.twig' %}
+
+{% block menu %}
+
+	<ul class="nav nav-tabs">
+	  <li class="nav-item">
+		<a class="nav-link active show" data-toggle="tab" href="#recus">Messages reçus</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="{{ path('profil_mail_expedition') }}">Messages envoyés</a>
+	  </li>	  
+	</ul>
+
+{% endblock %}
+
+{% block subcontent %}	
+
+		{#----------------------------------------------------------------------------------#}
+		<div class="tab-pane fade active show" id="recus">
+
+			{# ------------------------------------- #}
+			<table class="table table-hover table-bordered table-striped">
+
+				<thead>
+				    <tr>
+				      <th scope="col">Sujet</th>
+				      <th scope="col" class="intrm">Expéditeur</th>
+				      <th scope="col" class="intrm">Date de réception</th>
+				      <th scope="col" class="intrm">Nb messages</th>
+				      <th scope="col" class="intrm">Suppression</th>
+				    </tr>
+			  	</thead>
+
+			  	 <tbody>
+
+					{% for message in messages %}
+
+						{% set couleur = 'marker-mail' %}
+						{% for view in message.views %}
+							{% if view.viewer == app.user %}
+								{% set couleur = '' %}
+							{% endif %}
+						{% endfor %}
+
+						<tr>
+						    <th scope="row" class="{{ couleur }}"><a href="{{ path('profil_conversations_show', {'id':message.conversation.id}) }}" class="mail-title">{{ message.title }}</a></th>
+						    <td class="intrm">{{ message.author.username }}</td>
+						    <td class="intrm">{{ message.createdAt | date('d/m/Y')  }} à {{message.createdAt | date('H:i') }}</td>
+						    <td class="intrm">{{ message.conversation.messages | length }}</td>
+						    <td class="box-mail-supp intrm">
+						     	<a type="button" class="btn btn-warning" id="supp-talk" href="{{ path('profil_conversations_remove',{'id':message.conversation.id}) }}">Supprimer</a>
+						    </td>
+						 </tr>
+
+					{% endfor %}
+
+				</tbody>
+
+			</table>
+			{# ------------------------------------- #}
+			
+			<div class="navigation">
+			    {{ knp_pagination_render(messages) }}
+			</div>
+		
+		</div>
+		{#----------------------------------------------------------------------------------#}
+
+
+{% endblock %}

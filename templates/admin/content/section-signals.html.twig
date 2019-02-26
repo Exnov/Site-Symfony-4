@@ -1,0 +1,41 @@
+	<section id="table-reactions">
+
+		<table class="table table-hover table-bordered table-striped" id="admin-content-signals">
+
+			<thead>
+			    <tr>
+			      <th scope="col">Sujet</th>
+			      <th scope="col" class="intrm">Auteur du commentaire</th>
+			      <th scope="col" class="intrm">Nbre de signalements</th>
+			      <th scope="col" class="intrm">Date du commentaire</th>
+			      <th scope="col">Voir</th>
+			      <th scope="col" class="intrm">Suppression</th>
+			    </tr>
+		  	</thead>
+
+		  	 <tbody>
+				{% for critic in critics %}
+				<tr>
+				     <td><a href="{{ path(routeItem,{'id':critic.itemId,'titleUrl':critic.item.titleUrl}) }}">{{ critic.item.title }}</a></td>
+				     <td class="intrm"><a href="{{ path('profil_public',{'username':critic.author.username}) }}">{{ critic.author.username }}</a></td>{# un seul auteur de commentaire#}
+				     <td class="text-primary intrm">{{ critic.criticSignalements | length }}</td>
+				     <td class="text-primary intrm">{{ critic.createdAt | date('d/m/Y')  }} à {{critic.createdAt | date('H:i') }}</td>
+				     <td class="admin-action-button">
+				        <a class="admin-edit" href="{{ path('admin_signal_show_content',{'slug':slug, 'id':critic.id}) }}">Voir</a>
+				     </td>
+				     <td class="admin-action-button intrm">
+					    <a type="button" class="admin-remove" id="supp-reaction" href="{{ path('admin_comment_content_remove',{'slug':slug, 'id':critic.id}) }}">Supprimer</a>				     	
+				     </td>
+									     
+				 </tr>
+				{% endfor %}
+
+			</tbody>
+
+		</table>
+
+		<div class="navigation">
+		    {{ knp_pagination_render(critics) }}
+		</div>
+
+	</section>

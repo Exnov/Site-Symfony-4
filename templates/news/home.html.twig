@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% set homepageTitle = '' %}
+{% set homepageDescription = '' %}
+{% set homepagePromoCommunity = '' %}
+{% set homepageBgNews = '/XXXXX/public/uploads/images/homepage/' %}
+{% set homepageBgCommunity = homepageBgNews %}
+{% set homepagePoster = homepageBgNews %}
+{% set homepageVideo = homepageBgNews %}
+{% set homepageLogo = homepageBgNews %}
+
+{% if homepage %}
+
+	{% set homepageTitle = homepage.title %}
+	{% set homepageDescription = homepage.description %}
+	{% set homepagePromoCommunity = homepage.promoCommunity %}
+	{% set homepageBgNews = homepageBgNews ~ homepage.bgNews %}
+	{% set homepageBgCommunity = homepageBgCommunity ~ homepage.bgCommunity %}
+	{% set homepagePoster = homepagePoster ~ homepage.poster %}	
+	{% set homepageVideo = homepageVideo ~ homepage.video %}
+	{% set homepageLogo = homepageLogo ~ homepage.logo %}	
+	
+{% endif %}
+
+{% block title %}{{homepageTitle}}{% endblock %}
+{% block description %}{{homepageDescription}}{%endblock%}
+
+
+{% block body %}
+
+
+	<header>
+	<video class="l-header__video" poster="{{asset(homepagePoster)}}" autoplay="autoplay" loop="loop" muted="muted" playsinline="playsinline"><source src="{{asset(homepageVideo)}}" type="video/mp4"></video>
+
+	<div id="logo">
+		<img src="{{asset(homepageLogo)}}"/>
+		<p>{{homepageDescription}}</p>
+	</div>
+	</header>
+
+
+	{% include 'navbar.html.twig' with {'class':'', 'id':'navbarsticky'} %}
+	
+	
+	<section id="top-news" style="background-image: url({{homepageBgNews}});">
+		<div class="container">
+			<h1>News</h1>
+			
+			<ul class="l-topNews">
+
+				{# début de la boucle #}
+
+				{% for news in topNews %}
+
+				<li>
+					<a href="{{ path('news_show',{'id':news.id, 'titleUrl':news.titleUrl}) }}" class="box-topNews">
+						
+						<img  src="{{ asset('uploads/images/news/'~news.thumbnail) }}" alt="{{ news.title }}" class="thumbnail-topNews"/>
+						<p class="text-white bg-primary time-topNews"><time datetime="{{ news.publishedAt | date('Y-m-d') }}">{{ news.publishedAt | date('d/m/Y') }}</time></p>
+						<p class="text-white bg-dark title-topNews">{{ news.title }}</p>
+					</a>
+				</li>
+
+				{% endfor %}
+
+				{# fin de la boucle #}
+			</ul>			
+
+			<div id="more-news" class="mt-4 mb-4">
+				<a class="btn btn-primary" href="{{ path('news') }}">Plus de news ...</a>
+			</div>
+		</div>
+	</section>
+	
+	{% set routeCommunity='security_login' %}
+	{% if app.user %}
+		{% set routeCommunity='forum' %}
+	{% endif %}
+	<section id="section-communaute" style="background-image: url({{homepageBgCommunity}});">
+		<div class="container" style="background-image: url({{homepageBgCommunity}});">
+		
+				<div class="row">
+					<p class="col-md-6">
+						<a  href="{{ path(routeCommunity) }}">
+							{{homepagePromoCommunity}}
+						</a>
+					</p>
+				</div>
+				<div id="join-us">
+						<a class="btn" href="{{ path(routeCommunity) }}">Now</a>
+				</div>
+
+		</div>
+	</section>	
+	
+
+{% endblock %}
+

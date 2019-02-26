@@ -1,0 +1,12 @@
+	<div class="identity">
+		<h1>
+			{% if userImage %}
+				<a href="{{ asset('uploads/images/' ~ userImage.image) }}">
+					<img id="avatar-profil" src="{{ asset('uploads/images/' ~ userImage.thumbnail) }}" alt="avatar"/>
+				</a>
+			{% else %}
+				<span><i class="fas fa-user"></i></span>	
+			{% endif %}
+			{{titlePage ~ app.user.username}}
+		</h1>
+	</div>

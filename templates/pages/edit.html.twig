@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Edition {% endblock %}
+
+{% block body %}
+
+	<div class="container" id="work-topic">
+
+		<h1>Edition de la page {{rubrique}}</h1>
+
+		<div class="mt-5">
+
+			{{ form_start(formItem) }}
+
+			<div class="form-group">
+			    <label for="editor">{{rubrique}}</label>
+				<textarea id="editor" name="editor">
+				{{ item.content }}
+				</textarea>
+			</div>
+
+			{{ form_row(formItem.authorPseudo, {
+				'label':'Nom d\'auteur à afficher',
+				'attr':{
+						'placeholder':app.user.username
+					}					
+			}) }}
+
+			<button type="submit" class="btn btn-success mt-4">
+					Enregistrer les modifications
+			</button>				
+
+			{{ form_end(formItem) }}
+
+		</div>
+
+	</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="//cdn.ckeditor.com/4.5.6/full-all/ckeditor.js"></script>
+    {% include "@CKSourceCKFinder/setup.html.twig" %}
+
+	<script>
+    	var editor = CKEDITOR.replace( 'editor' );
+   	 CKFinder.setupCKEditor( editor );
+	</script>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Nouveau sujet {% endblock %}
+
+{% block body %}
+
+	<div class="container" id="work-topic">
+
+		<h1>Nouveau sujet : </h1>
+
+		{# formulaire de sujet pour l'utilisateur connecté#}
+		<div class="mt-5">
+
+			{{ form_start(topicForm) }}
+
+				{{ form_row(topicForm.title, {
+					'label':'Nom du sujet',
+					'attr':{
+						'placeholder':'Votre sujet ...'
+					}
+				}) }}
+
+				{{ form_row(topicForm.category) }}
+
+				{{ form_row(topicForm.reactions, {
+					'label':' '
+				}) }}
+
+				<button type="submit" class="btn btn-success mb-4">Poster</button>
+
+			{{ form_end(topicForm) }}
+
+		</div>
+
+	</div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+	<script src="{{ asset('bundles/fosckeditor/ckeditor.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'profil/base-profil.html.twig' %}
+
+{% block menu %}
+
+			{#----------------------------------------------------------------#}
+			<ul class="nav nav-tabs">
+			  <li class="nav-item">
+			    <a class="nav-link" href="{{ path('profil_public',{'username':user.username}) }}">Topics</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="{{ path('profil_public_comments',{'username':user.username}) }}">Commentaires</a>
+			  </li>
+
+			  {% if autorisation %}
+			 
+			  <li class="nav-item">
+			    <a class="nav-link" href="{{ path('profil_signalements',{'username':user.username}) }}">Commentaires signalés</a>
+			  </li>
+
+			  <li class="nav-item">
+			  	<a class="nav-link active show" data-toggle="tab" href="#signal">Commentaires hors forum signalés</a>
+			  </li>		
+
+			  {% endif %}	  
+			  
+
+			</ul>
+			{#----------------------------------------------------------------#}
+{% endblock %}
+
+{% block content %}	
+			{#----------------------------------------------------------------#}
+
+			{% if autorisation %}
+
+
+			<div id="myTabContent" class="tab-content">
+
+			  <section class="tab-pane fade active show mt-4 profil-public-contributions">
+
+			  	<p class="profil-public-qtt">{{ critics | length}} commentaire(s) signalé(s) pour {{nSignalements}} signalements</p>
+
+				<table class="table">
+
+					<thead>
+					    <tr>
+					      <th scope="col" class="intrm">Catégorie</th>
+					      <th scope="col">Sujet</th>					      
+					      <th scope="col" class="intrm">Nb de signalements</th>
+					      <th scope="col" class="intrm">Date dernier signalement</th>
+					      <th scope="col">Edition</th>{# voir le commentaire signalé #}
+					      
+					    </tr>
+				  	</thead>
+
+				  	 <tbody>
+						{% for critic in critics %}
+						<tr>
+
+						     <th scope="row" class="intrm">{{critic.category}}</th>
+
+						     <td><a href="{{ path(critic.route,{'id':critic.item.id,'titleUrl':critic.item.titleUrl}) }}">{{critic.item.title}}</a></td>
+
+						     <td class="intrm">{{ critic.criticSignalements | length}}</td>
+
+						     <td class="intrm">{{ (critic.criticSignalements | last).createdAt | date('d/m/Y')  }}</td> {# double filtres : on recupère la dernière critic puis sa date#}
+
+						     <td><a href="{{ path(route,{'slug':slug,'id':critic.id}) }}" class="btn btn-success">Editer</a></td>
+
+
+					     </tr>
+						{% endfor %}
+
+					</tbody>
+
+				</table>			  
+
+			  </section>
+			</div>
+
+			{% endif %}
+			
+			{#----------------------------------------------------------------#}
+
+{% endblock %}

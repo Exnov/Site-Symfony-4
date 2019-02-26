@@ -1,0 +1,42 @@
+		<section  id="table-users">
+
+				<table class="table table-hover table-bordered" id="admin-discuss">
+
+					<thead>
+					    <tr>
+					      <th scope="col" class="intrm">Nom</th>
+					      <th scope="col" class="intrm">Prénom</th>
+					      <th scope="col">Email</th>
+					      <th scope="col" class="intrm">Date</th>
+					      <th scope="col">Voir</th>
+					      <th scope="col" class="intrm">Suppression</th>
+					    </tr>
+				  	</thead>
+
+				  	 <tbody>
+			
+						{% for message in messages %}
+						<tr>
+						     <td class="text-primary intrm">{{ message.nom }}</td>
+						     <td class="text-primary intrm">{{ message.prenom }}</td>
+						     <td class="text-primary">{{ message.email }}</td>
+						     <td class="text-primary intrm">{{ message.createdAt | date('d/m/Y')  }} à {{message.createdAt | date('H:i') }}</td>
+						     <td class="admin-action-button">
+						     	<a type="button" class="admin-edit" href="{{ path('admin_contact_msg',{'id':message.id}) }}">Voir</a>
+						     </td>						     
+						     <td class="admin-action-button intrm">
+						     	<a type="button" class="admin-remove" href="{{ path('admin_contact_msg_remove',{'id':message.id}) }}">Supprimer</a>
+						     </td>
+
+						 </tr>
+						{% endfor %}
+
+					</tbody>
+				</table>
+
+				<div class="navigation-admin">
+		   			 {{ knp_pagination_render(refPaginator) }}				  
+				</div>	
+
+					
+		</section>

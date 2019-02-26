@@ -1,0 +1,104 @@
+		<section  id="table-users">
+
+			<div class="mt-3" id="admin-homepage">
+
+				{{ form_start(form) }}
+
+					{{ form_row(form.title, {
+						'label':'Titre de la news',
+						'attr':{
+							'placeholder':'Votre titre ...'
+						},
+						'label_attr':{
+							'class':'text-white'
+						}					
+					}) }}
+					
+					{{ form_row(form.description, {
+						'label':'Description du site',
+						'attr':{
+							'placeholder':'Votre description ...'
+						},
+						'label_attr':{
+							'class':'text-white'
+						}
+					}) }}
+
+					{{ form_row(form.promoCommunity, {
+						'label':'Message à afficher dans le bloc community',
+						'attr':{
+							'placeholder':'Votre message ...'
+						},
+						'label_attr':{
+							'class':'text-white'
+						}
+					}) }}									
+
+					{#--image--#}
+
+					{% set inputsImage = {
+						'bgNews': form.bgNews,
+						'bgCommunity': form.bgCommunity,
+						'poster': form.poster,
+						'video': form.video,
+						'logo': form.logo,
+					} %}
+
+						{% for key,url in urls %}
+
+						<div class="form-group">
+
+							<label for="{{ inputsImage[key].vars.id }}"
+							    class='text-white'>
+							    {{ inputsImage[key].vars.label }} 
+
+							</label>
+
+						    {# bouton de suppression #}
+						    {% if (url | length)> 0 %}					    
+							    <a href='{{ path('admin_homepage_remove',{'key':key})}}' id="supp-{{key}}" class="supp-media"><i class="far fa-trash-alt"></i></a>						   
+						    {% endif %}
+						    {#fin  bouton de suppression #}	
+
+							{{ form_widget(inputsImage[key],{
+							'attr':{
+								'placeholder':'Votre média ...'
+							},						
+							}) }}
+							
+							{% set imageInput='' %}
+							
+							{% if (url | length)> 0 %}
+
+								<div class="apercu" id="apercu-{{key}}">
+									{% if (checkurlextension(url)) %}
+
+										{#--affichage image--#}
+										{% set imageInput=asset('uploads/images/homepage/'~ url) %}
+										<img class="imgpreview" src="{{ imageInput }}"/>
+
+									{% else %}
+										{#--affichage fontawesome--#}
+										<p class="text-white"><i class="fas fa-video pr-2"></i> média enregistré</p>
+
+									{% endif %}
+
+								</div>	
+							
+							{% endif %}
+						
+						</div>
+
+					{% endfor %}
+
+					{#--fin image--#}
+				
+					<button type="submit" class="btn btn-success mt-4">
+							Enregistrer les modifications
+					</button>				
+
+				{{ form_end(form) }}
+
+			</div>		
+					
+		</section>

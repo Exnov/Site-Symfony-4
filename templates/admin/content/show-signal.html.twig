@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+		<section class="generic-talk">
+
+			<div class="container">
+
+				<h1>Message publié dans {{rubrique}}</h1>
+			
+				{#message qui dérange#}
+				<article class="article-forum mb-4">
+
+					<div class="metadata">
+						<h4>
+							Auteur : {{ critic.author.username }}
+						</h4>
+						<p>
+						Sujet : <a href="{{ path(routeItem,{'id':critic.itemId,'titleUrl':critic.item.titleUrl}) }}">{{ critic.item.title }}</a>
+						</p>
+						<p>
+							Ecrit le {{critic.createdAt | date('Y/m/d') }} à {{critic.createdAt | date('H:i') }}
+						</p>
+					</div>
+
+					<div class="content mt-3">
+						{{critic.content | raw}}
+					</div>	
+
+					<div class="mt-4" id="admin-signals-actions">
+						<a href="{{ path('admin_comment_content_edit',{'slug':slug, 'id':critic.id}) }}" class="btn btn-success">Editer</a>
+						<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">Supprimer</button>
+
+						<!-- Modal reaction-->
+						{% set varsReaction = {
+							'targetButton': 'exampleModal',
+							'modalTitle': 'Suppression du message',
+							'modalBody': 'Voulez-vous supprimer définitivement le message ?',
+							'route': 'admin_comment_content_remove',
+							'slug': slug,
+							'ref': critic.id,
+						} %}
+						{% include 'admin/content/modal.html.twig' with varsReaction %}
+					</div>	
+
+				</article>
+
+			</div>
+
+		</section>
+
+		<section class="generic-talk">
+
+			<div class="container">
+
+				{#messages qui indiquent ce qui dérangent#}
+				<h1>Signalement(s)</h1>
+
+				{%for signalement in critic.criticSignalements %}
+					<article class="article-forum mb-4">
+						<div class="metadata">
+							<h4>
+								Auteur : {{ signalement.user.username }}
+							</h4>
+							<p>
+								Ecrit le {{signalement.createdAt | date('Y/m/d') }} à {{signalement.createdAt | date('H:i') }}
+							</p>
+						</div>
+						<div class="content mt-3">
+							{{signalement.content | raw}}
+						</div>	
+					</article>
+				{% endfor %}
+
+			</div>
+
+		</section>
+
+{% endblock %}

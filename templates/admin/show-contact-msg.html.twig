@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Voir {% endblock %}
+
+{% block body %}
+
+
+		<section class="generic-talk">
+
+			<div class="container">
+
+				<h1 class="text-white">Message de {{contact.prenom}} {{contact.nom}}</h1>
+
+				<div class="mb-4">
+					<a class="btn btn-success" href="{{ path('admin_contact')}}"><i class="fas fa-arrow-left"></i> Accueil édition</a>
+				</div>					
+			
+				<article class="article-forum mt-4 mb-4">
+
+					<div class="metadata">
+						<p>
+							Envoyé le {{contact.createdAt | date('Y/m/d') }} à {{contact.createdAt | date('H:i') }}
+						</p>
+					</div>
+					<div class="content mt-3">
+						{{contact.content | raw}}
+					</div>	
+
+					<div class="mt-4">
+
+						<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">Supprimer</button>
+
+						{# Modal reaction #}
+						{% set varsContact = {
+							'targetButton': 'exampleModal',
+							'modalTitle': 'Suppression du message',
+							'modalBody': 'Voulez-vous supprimer définitivement le message ?',
+							'route': 'admin_contact_msg_remove',
+							'ref': contact.id,
+						} %}
+						{% include 'admin/forum/modal.html.twig' with varsContact %}
+
+					</div>	
+				</article>
+
+			</div>
+
+		</section>	
+
+{% endblock %}

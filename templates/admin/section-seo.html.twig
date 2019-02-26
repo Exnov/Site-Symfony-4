@@ -1,0 +1,30 @@
+		<section  id="table-users">
+
+			<div class="mt-3">
+
+				<form method="post" id="social-admin">
+				
+					{% for line in seo %}
+
+					  <fieldset class="pb-4">
+						  <legend class="text-white pl-2">Page {{ line.page }}</legend>
+
+							 <div class="form-group">
+							  <label for="seo-{{line.id}}" class="text-white">Description :</label>
+							  <textarea class="form-control" rows="5" id="seo-{{line.id}}" name="seo-{{line.id}}">{{line.description}}</textarea>
+							</div> 
+
+						</fieldset>	
+
+					{% endfor %}
+
+					<div>
+						<button type="submit" class="btn btn-success">Modifier</button>
+						<span class="text-white ml-4 p-2" id="confirm-social">Mise à jour effectuée</span>
+					</div>
+
+				</form>
+
+			</div>		
+					
+		</section>

@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Forum {{ forum.category }} {% endblock %}
+{% block description %}Forum {{ forum.category }} de Steven For Ever {%endblock%}
+
+{% block body %}
+
+		<section id="topics">
+
+			<div class="container">
+				<h1>{{ forum.category }}</h1>
+
+				{% set route = path('security_registration') %}
+
+				{% if app.user %}
+					{% set route = path('forum_create') %}
+				{% endif %}
+
+				<a class="btn btn-success mb-4" href="{{ route }}">Nouveau sujet</a>
+
+				<table class="table table-hover table-bordered table-striped">
+
+					<thead>
+					    <tr>
+					      <th scope="col">Sujet</th>
+					      <th scope="col" class="intrm">Auteur</th>
+					      <th scope="col" class="intrm">Nb</th>
+					      <th scope="col" class="intrm">Dernier msg</th>
+					      <th scope="col" class="intrm">Crée le</th>
+					    </tr>
+				  	</thead>
+
+				  	 <tbody>
+						{% for topic in topics %}
+						<tr>
+						     <th scope="row"><a href="{{ path('forum_topic',{'slug':topic.category.slug, 'id':topic.id,'titleUrl':topic.titleUrl}) }}">{{ topic.title }}</a></th>
+						     <td class="intrm"><a href="{{ path('profil_public',{'username':topic.author.username}) }}">{{ topic.author.username }}</a></td>  {# on recupère l'objet user, et sa propriété username, via la propriété author de l'entité topic#}
+						     <td class="intrm">{{ topic.reactions | length}}</td>
+
+						     {# on affiche ensuite la date du dernier commentaire s'il y en a, sinon date du message de départ #}
+
+						     {% if topic.reactions | length > 0%}
+
+						    	 <td class="intrm">{{ (topic.reactions | last).createdAt | date('d/m/Y')  }}</td> {# double filtres : on recupère la dernière reaction puis sa date#}
+
+						    {% else %}
+
+						    	<td class="intrm">{{ topic.createdAt | date('d/m/Y')  }}</td>
+
+						    {% endif %}
+						    <td class="intrm">{{ topic.createdAt | date('d/m/Y')}}</td>
+
+					     </tr>
+						{% endfor %}
+
+					</tbody>
+
+				</table>
+
+				<div class="navigation">
+				    {{ knp_pagination_render(topics) }}
+				</div>
+			</div>
+		</section>
+		
+{% endblock %}
+
+
+

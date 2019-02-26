@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Connexion {% endblock %}
+{% block description %}connexion{%endblock%}
+
+{% block topbody %} <body class="bg-connexion" style="background-image: url({{user_management.bgConnexion}});"> {% endblock %}
+	
+{% block body %}
+				<section id="connexion">
+
+					<div class="container pb-4">
+						<h1 class="mb-4">Connexion au level supérieur</h1>
+
+						<div id="form-connexion">
+
+							{% if confirmation %}
+							<p id="envoi-confirmation">{{confirmation}}</p>
+							{% endif %}						
+
+							<form action="{{ path('security_login') }}" method="post">
+								<div class="form-group mt-4">
+									<input type="text" class="form-control" placeholder="Adresse email ..." name="_username" required/>
+								</div>
+								<div class="form-group">
+									<input type="password" class="form-control" placeholder="Mot de passe ..." name="_password" required/>
+								</div>
+								<div class="form-group">
+									<button type="submit" class="btn btn-success">Connexion !</button>
+								</div>		
+							</form>
+
+							<div>
+						        <p>
+						            <span id="subscribe-invite">Vous n'avez pas encore de compte ?</span>
+						            <a href="{{ path('security_registration') }}" >S'inscrire</a>
+						        </p>
+						        <p>						        	
+						            <a href="{{ path('security_pwd_lost') }}">Mot de passe perdu ?</a>
+						        </p> 						                            
+							</div>
+
+						</div>
+
+					</div>
+				</section>
+{% endblock %}

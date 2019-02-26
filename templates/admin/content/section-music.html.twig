@@ -1,0 +1,60 @@
+	<section id="table-topics">
+
+			<table class="table table-hover table-bordered table-striped" id="t-music-admin">
+
+			<thead>
+			    <tr>
+			      <th scope="col">Titre</th>
+			      <th scope="col" class="intrm">Année de sortie</th>
+			      <th scope="col" class="intrm-first">Playlist</th>
+			      <th scope="col" class="intrm">Auteur</th>
+			      <th scope="col" class="intrm">Date de création</th>
+			      <th scope="col" class="intrm">Date de publication</th>
+			      <th scope="col" class="intrm">Etat</th>					      
+			      <th scope="col">Edition</th>
+			      <th scope="col" class="intrm">Suppression</th>
+			    </tr>
+		  	</thead>
+
+		  	 <tbody>
+				{% for album in items %}
+				<tr>
+				     <th scope="row"><a href="{{ path('music_show',{'id':album.id,'titleUrl':album.titleUrl}) }}">{{ album.title }}</a></th>
+				     <td class="text-primary intrm">{{ album.year }}</td>
+				     <td class="text-primary intrm-first">{{ album.playlist }}</td>
+				     <td class="text-primary intrm">{{ album.authorPseudo }}</td>
+				     <td class="text-primary intrm">{{ album.createdAt | date('d/m/Y')  }}</td>
+
+					{% set datePublication='' %}
+				     {% if album.publishedAt %}
+				     	{% set datePublication= album.publishedAt | date('d/m/Y') %}
+				     {% endif %}				     
+
+				     <td class="text-primary intrm">{{datePublication}}</td>				     
+
+				     {% set etat='brouillon' %}
+				     {% if album.status=='1'%}
+				     	{% set etat='publié' %}
+				     {% endif %}
+
+				     <td class="text-primary intrm">{{ etat }}</td>
+
+				     <td class="admin-action-button">
+					    <a type="button" class="admin-edit"  href="{{ path('music_edit',{'id':album.id}) }}">Editer</a>				     	
+				     </td>				     
+				     <td class="admin-action-button intrm">
+					    <a type="button" class="admin-remove"  href="{{ path('music_remove',{'id':album.id}) }}">Supprimer</a>				     	
+				     </td>
+
+				 </tr>
+				{% endfor %}
+
+			</tbody>
+
+		</table>
+
+		<div class="navigation">
+		    {{ knp_pagination_render(refPaginator) }}
+		</div>
+
+	</section>

@@ -1,0 +1,50 @@
+{% extends 'base-content.html.twig' %}
+
+{% block title %}{{music.title}}{% endblock %}
+{% block description %}{{music.description}}{%endblock%}
+
+{% block content %}
+
+	<section class="generic-info">
+		<div class="container">
+
+			<article>
+				<div class="generic-header">
+					<h1 class="generic-title">{{ music.title }} ({{ music.year }})</h1>
+					<div class="generic-metadata">
+						Publié le 
+						<time datetime="{{ music.publishedAt | date('Y-m-d') }}">
+							{{music.publishedAt | date('d/m/Y') }} 
+						</time>
+						à {{music.publishedAt | date('H:i') }} par 
+						{{music.authorPseudo}}
+						{% if app.user and 'ROLE_XXXXX' in app.user.roles %}
+							<a href="{{ path('music_edit',{'id':music.id}) }}">éditer la fiche album</a>
+						{% endif %}
+					</div>
+				</div>
+				<div class="generic-body">
+					<div class="cover-alter" style="background:url('{{asset('uploads/images/music/'~music.image)}}') center;">
+						<img src="{{asset('uploads/images/music/'~music.image)}}" alt="{{ music.title }}"/>
+					</div>
+					<div class="generic-content">
+						{{music.content | raw}}
+					</div>
+
+					{% if music.playlist %}
+					<div class="album-playlist">
+						<div class="embed-responsive embed-responsive-16by9">
+							<iframe src="https://www.youtube.com/embed/{{music.playlist}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen class="embed-responsive-item"></iframe>	
+						</div>	
+					</div>	
+					{% endif %}	
+				</div>
+
+			</article>
+
+		</div>
+	</section>
+
+
+{% endblock %}
+

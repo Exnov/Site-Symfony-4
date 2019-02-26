@@ -1,0 +1,42 @@
+{% extends 'base-content.html.twig' %}
+
+{% block title %}{{film.title}}{% endblock %}
+{% block description %}{{film.description}}{%endblock%}
+
+{% block content %}
+
+	<section class="generic-info">
+		<div class="container">
+			
+				<article>
+					<div class="generic-header">
+						<h1 class="generic-title">{{ film.title }} ({{ film.year }})</h1>
+						<div class="generic-metadata">
+							Publié le 
+							<time datetime="{{ film.publishedAt | date('Y-m-d') }}">
+								{{film.publishedAt | date('d/m/Y') }} 
+							</time>
+							à {{film.publishedAt | date('H:i') }} par 
+							{{film.authorPseudo}}
+							{% if app.user and 'ROLE_XXXXX' in app.user.roles %}
+								<a href="{{ path('film_edit',{'id':film.id}) }}">éditer la fiche film</a>
+							{% endif %}
+						</div>
+					</div>
+					<div class="generic-body">
+						<div class="cover-alter" style="background:url('{{asset('uploads/images/films/'~film.image)}}') center;">
+							<img src="{{asset('uploads/images/films/'~film.image)}}" alt="{{ film.title }}"/>
+						</div>
+						<div class="generic-content">
+							{{film.content | raw}}
+						</div>
+					</div>
+
+				</article>
+
+		</div>
+	</section>
+
+	
+{% endblock %}
+

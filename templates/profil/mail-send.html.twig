@@ -1,0 +1,59 @@
+{% extends 'profil/base-messagerie.html.twig' %}
+
+{% block menu %}
+
+	<ul class="nav nav-tabs">
+	  <li class="nav-item">
+	   <a class="nav-link" href="{{ path('profil_mail_reception') }}">Messages reçus</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link active show" data-toggle="tab" href="#envoyes">Messages envoyés</a>
+	  </li>	  
+	</ul>
+
+{% endblock %}
+
+{% block subcontent %}	
+
+		{#----------------------------------------------------------------------------------#}
+		<div class="tab-pane fade active show" id="envoyes">
+
+			{# ------------------------------------- #}
+			<table class="table table-hover table-bordered table-striped">
+
+				<thead>
+				    <tr>
+				      <th scope="col">Sujet</th>
+				      <th scope="col" class="intrm">Nb messages</th>
+				      <th scope="col" class="intrm">Dernier msg</th>
+				      <th scope="col" class="intrm">Suppression</th>
+				    </tr>
+			  	</thead>
+
+			  	 <tbody>
+					{% for message in messages %}
+					<tr>
+					    <th scope="row"><a href="{{ path('profil_conversations_show', {'id':message.conversation.id}) }}">{{ message.title }}</a></th>
+					    <td class="intrm">{{ message.conversation.messages | length }}</td>
+					    {# on affiche ensuite la date du dernier commentaire s'il y en a, sinon date du message de départ #}
+					    <td class="intrm">{{ message.createdAt | date('d/m/Y')  }} à {{message.createdAt | date('H:i') }}</td>
+					    <td class="box-mail-supp intrm">
+					     	<a type="button" class="btn btn-warning" id="supp-talk" href="{{ path('profil_conversations_remove',{'id':message.conversation.id}) }}">Supprimer</a>
+					    </td>
+					 </tr>
+					{% endfor %}
+
+				</tbody>
+
+			</table>
+			{# ------------------------------------- #}
+			
+			<div class="navigation">
+			    {{ knp_pagination_render(messages) }}
+			</div>
+
+		</div>
+		{#----------------------------------------------------------------------------------#}
+
+
+{% endblock %}

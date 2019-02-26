@@ -1,0 +1,40 @@
+{% extends 'base-content.html.twig' %}
+
+{% block title %}{{news.title}}{% endblock %}
+{% block description %}{{news.description}}{%endblock%}
+
+{% block content %}
+
+	<section class="generic-info">
+		<div class="container">
+
+			<article>
+				<div class="generic-header">
+					<h1 class="generic-title">{{news.title}}</h1>
+					<div class="generic-metadata">
+						Publié le 
+						<time datetime="{{ news.publishedAt | date('Y-m-d') }}">
+							{{news.publishedAt | date('d/m/Y') }} 
+						</time>
+						à {{news.publishedAt | date('H:i') }} par 
+						{{news.authorPseudo}}
+						{% if app.user and 'ROLE_XXXXX' in app.user.roles %}
+							<a href="{{ path('news_edit',{'id':news.id}) }}">éditer la news</a>
+						{% endif %}
+					</div>
+				</div>
+				<div class="generic-body">
+					<div class="generic-cover" style="background:url('{{asset('uploads/images/news/'~news.image)}}') center;">
+						<img src="{{asset('uploads/images/news/'~news.image)}}" alt="{{news.title}}"/>
+					</div>
+					<div class="generic-content">
+						{{news.content | raw}}
+					</div>
+				</div>
+			</article>
+
+		</div>
+	</section>
+
+{% endblock %}
+

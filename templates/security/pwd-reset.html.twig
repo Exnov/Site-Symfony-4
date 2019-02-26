@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Connexion {% endblock %}
+
+{% block topbody %} <body class="bg-connexion" style="background-image: url({{user_management.bgConnexion}});"> {% endblock %}
+	
+{% block body %}
+		<section id="connexion">
+
+			<div class="container pb-4">
+				<h1 class="mb-4">Mot de passe réinitialisation</h1>
+		
+				<div id="form-connexion">
+
+					<div>
+				        <p id="subscribe-invite">
+				           Réinitialisation du mot de passe
+				        </p>
+	                            
+					</div>			
+				
+					{{form_start(formReset)}}
+
+					{{form_row(formReset.email,{ 'label':'Email','attr':{
+						'placeholder':'Email ...', 'value':''}
+					})}}								
+
+					{{form_row(formReset.password,{ 'label':'Mot de passe','attr':{
+						'placeholder':'Mot de passe ...'}
+					})}}
+					{{form_row(formReset.confirm_password,{ 'label':'Confirmation du mot de passe','attr':{
+						'placeholder':'Répétez votre mot de passe ...'}
+					})}}
+
+
+					<button type="submit" class="btn btn-success">Enregistrer</button>
+					{{form_end(formReset)}}	
+
+
+				</div>
+				
+
+			</div>
+		</section>
+{% endblock %}

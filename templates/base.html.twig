@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        {# content de head #}
+    	{% include 'content-head.html.twig' %}
+        {% block stylesheets %}{% endblock %}
+        {# les elts à customiser sont dispo en-dessous #}
+        <title>{% block title %}{% endblock %}</title>
+        <meta name="description" content="{% block description %}{%endblock%}">
+       
+    </head>
+
+    {% block topbody %}
+    <body style="background-image: url({{user_management.bgGeneral}});">
+    {% endblock %}
+
+        {% set idBody = 'page-body' %}
+
+        {# barre de navigation #}
+        {% if navbarsticky is not defined %}
+            {% include 'navbar.html.twig' with {'class': 'navbar-fixed-top', 'id':'navbarclassic'} %}
+        {% else %}  
+            {% set idBody = 'page-body-home' %}         
+        {% endif %}
+ 
+		<div id="{{ idBody }}">
+			{% block body %}{% endblock %}
+		</div>
+
+    	{# footer #}
+    	{% include 'footer.html.twig' %}
+
+    	{# js #}
+    	{% include 'content-js.html.twig' %}
+        {% block javascripts %}{% endblock %}
+
+    </body>
+</html>

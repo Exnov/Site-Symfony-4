@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Films {% endblock %}
+{% block description %} {{user_management.descrFilms}} {%endblock%}
+
+{% block body %}
+
+	<section id="films">
+
+		<div class="container">
+			<h1 class="text-align mb-4">Films</h1>
+			
+			<ul class="l-films">
+				{# début de la boucle #}
+				{% for film in films %}
+
+				<li>
+					<a href="{{ path('film_show',{'id':film.id, 'titleUrl':film.titleUrl}) }}">
+						<img  src="{{ asset('uploads/images/films/'~film.thumbnail) }}" alt="{{ film.title }}" class="thumbnail-film"/>
+						<p class="text-center text-white bg-dark">{{ film.title }} ({{ film.year }})</p>
+					</a>
+				</li>
+
+				{% endfor %}
+				{# fin de la boucle #}
+			</ul>
+
+		</div>
+
+	</section>
+
+{% endblock %}

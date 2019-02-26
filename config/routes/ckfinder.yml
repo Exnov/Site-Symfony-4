@@ -1,0 +1,5 @@
+# config/routes/ckfinder.yml
+    
+ckfinder_connector:
+    resource: "@CKSourceCKFinderBundle/Resources/config/routing.yml"
+    prefix:   /

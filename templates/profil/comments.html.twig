@@ -1,0 +1,68 @@
+{% extends 'profil/base-tab.html.twig' %}
+
+{% block menu %}
+
+	<ul class="nav nav-tabs">
+	  <li class="nav-item">
+	    <a class="nav-link" href="{{ path('profil') }}">Infos</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="{{ path('profil_topics') }}">Sujets</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link active show" data-toggle="tab" href="#comments">Commentaires</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="{{ path('profil_comments_contents') }}">Commentaires hors forum</a>
+	  </li>		  
+	</ul>
+{% endblock %}
+
+{% block content %}	
+
+	<div id="myTabContent" class="tab-content">
+
+		<div class="tab-pane fade active show" id="profil-comments">
+
+		  	<h4 class="mb-4 mt-4">{{ nbCommentsTotal }} commentaires</h4>
+			<table class="table table-hover table-bordered table-striped">
+
+				<thead>
+				    <tr>
+				      <th scope="col">Sujet</th>
+				      <th scope="col" class="intrm">Catégorie</th>
+				      <th scope="col" class="intrm">Nb likes</th>
+				      <th scope="col" class="intrm">Date</th>
+				      <th scope="col" class="intrm">Edition</th>
+				      <th scope="col" class="intrm">Suppression</th>
+				    </tr>
+			  	</thead>
+
+			  	<tbody>
+			  		{% for reaction in reactions %}
+			  	 		<tr>
+						     <th scope="row"><a href="{{ path('forum_topic',{'slug':reaction.topic.category.slug, 'id':reaction.topic.id,'titleUrl':reaction.topic.titleUrl}) }}">{{ reaction.topic.title }}</a></th>	
+						     <td class="intrm">{{ reaction.topic.category.slug}}</td>	
+						     <td class="intrm">{{ reaction.reactionlikes | length}}</td>						     
+						     <td class="intrm">{{ reaction.createdAt | date('d/m/Y')  }} à {{ reaction.createdAt | date('H:i')  }}</td> 
+						     <td class="profil-comment-edit intrm">
+						     	<a type="button" class="btn btn-success" href="{{ path('forum_comment_edit',{'id':reaction.id}) }}">Editer</a>
+						     </td>  	
+				     		 <td class="profil-comment-supp intrm">
+						     	<a type="button" class="btn btn-warning" href="{{ path('profil_comment_remove',{'id':reaction.id}) }}">Supprimer</a>
+						     </td> 						      		
+			  	 		</tr>
+		  			{% endfor %}
+		  		</tbody>
+
+		  	</table>		 
+
+			<div class="navigation">
+			    {{ knp_pagination_render(reactions) }}
+			</div>
+
+		 </div>
+
+	</div>
+
+{% endblock %}

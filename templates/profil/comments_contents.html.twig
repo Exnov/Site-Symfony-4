@@ -1,0 +1,70 @@
+{% extends 'profil/base-tab.html.twig' %}
+
+{% block menu %}
+
+	<ul class="nav nav-tabs">
+	  <li class="nav-item">
+	    <a class="nav-link" href="{{ path('profil') }}">Infos</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="{{ path('profil_topics') }}">Sujets</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="{{ path('profil_comments') }}">Commentaires</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link active show" data-toggle="tab" href="#comments">Commentaires hors forum</a>
+	  </li>		  
+	</ul>
+{% endblock %}
+
+{% block content %}	
+
+	<div id="myTabContent" class="tab-content">
+
+		<div class="tab-pane fade active show" id="profil-comments">
+
+		  	<h4 class="mb-4 mt-4">{{ nbCommentsTotal }} commentaires</h4>
+			<table class="table table-hover table-bordered table-striped">
+
+				<thead>
+				    <tr>
+				      <th scope="col">Sujet</th>
+				      <th scope="col" class="intrm">Catégorie</th>
+				      <th scope="col" class="intrm">Nb likes</th>
+				      <th scope="col" class="intrm">Date</th>
+				      <th scope="col" class="intrm">Edition</th>
+				      <th scope="col" class="intrm">Suppression</th>
+				    </tr>
+			  	</thead>
+
+			  	<tbody>
+			  		{% for critic in critics %}
+			  	 		<tr>
+
+			  	 			<th scope="row"><a href="{{ path(critic.route,{'id':critic.item.id,'titleUrl':critic.item.titleUrl}) }}">{{critic.item.title}}</a></th>	
+						    <td class="intrm">{{critic.category}}</td>	
+						    <td class="intrm">{{ critic.criticlikes | length}}</td>						     
+						    <td class="intrm">{{ critic.createdAt | date('d/m/Y')  }} à {{ critic.createdAt | date('H:i')  }}</td> 
+						    <td class="profil-comment-edit intrm">
+						     	<a type="button" class="btn btn-success" href="{{ path('critic_comment_edit',{'slug':critic.category,'id':critic.id}) }}">Editer</a>
+						    </td>  	
+				     		<td class="profil-comment-supp intrm">
+						     	<a type="button" class="btn btn-warning" href="{{ path('profil_comment_contents_remove',{'id':critic.id}) }}">Supprimer</a>
+						     </td> 	
+						     					      		
+			  	 		</tr>
+		  			{% endfor %}
+		  		</tbody>
+
+		  	</table>	
+
+			<div class="navigation">
+			    {{ knp_pagination_render(critics) }}
+			</div>
+
+		 </div>
+
+	</div>
+
+{% endblock %}

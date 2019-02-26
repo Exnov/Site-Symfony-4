@@ -1,0 +1,56 @@
+	<section  id="table-topics">
+
+			<table class="table table-hover table-bordered table-striped" id="admin-content">
+
+			<thead>
+			    <tr>
+			      <th scope="col">Titre</th>
+			      <th scope="col" class="intrm">Auteur</th>
+			      <th scope="col" class="intrm">Date de création</th>
+			      <th scope="col" class="intrm">Date de publication</th>
+			      <th scope="col" class="intrm">Etat</th>
+			      <th scope="col">Edition</th>
+			      <th scope="col" class="intrm">Suppression</th>
+			    </tr>
+		  	</thead>
+
+		  	 <tbody>
+				{% for news in items %}
+				<tr>
+				     <th scope="row"><a href="{{ path('news_show',{'id':news.id,'titleUrl':news.titleUrl}) }}">{{ news.title }}</a></th>
+				     <td class="text-primary intrm">{{ news.authorPseudo }}</td>
+				     <td class="text-primary intrm">{{ news.createdAt | date('d/m/Y')  }}</td>
+
+				     {% set datePublication='' %}
+				     {% if news.publishedAt %}
+				     	{% set datePublication= news.publishedAt | date('d/m/Y') %}
+				     {% endif %}				     
+
+				     <td class="text-primary intrm">{{datePublication}}</td>				     
+
+				     {% set etat='brouillon' %}
+				     {% if news.status=='1'%}
+				     	{% set etat='publié' %}
+				     {% endif %}
+
+				     <td class="text-primary intrm">{{ etat }}</td>
+
+				     <td class="admin-action-button">
+					    <a type="button" class="admin-edit"  href="{{ path('news_edit',{'id':news.id}) }}">Editer</a>				     	
+				     </td>				     
+				     <td class="admin-action-button intrm">
+					    <a type="button" class="admin-remove"  href="{{ path('news_remove',{'id':news.id}) }}">Supprimer</a>				     	
+				     </td>
+
+				 </tr>
+				{% endfor %}
+
+			</tbody>
+
+		</table>
+
+		<div class="navigation">
+		    {{ knp_pagination_render(refPaginator) }}
+		</div>
+
+	</section>

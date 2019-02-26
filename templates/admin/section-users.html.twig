@@ -1,0 +1,35 @@
+		<section  id="table-users">
+
+				<table class="table table-hover table-bordered table-striped" id="admin-users">
+
+					<thead>
+					    <tr>
+					      <th scope="col">Utilisateur</th>
+					      <th scope="col" class="intrm">Email</th>
+					      <th scope="col" class="intrm">Date de création</th>
+					      <th scope="col">Suppression</th>
+					    </tr>
+				  	</thead>
+
+				  	 <tbody>
+			
+						{% for user in users %}
+						<tr>
+						     <th scope="row"><a href="{{ path('profil_public',{'username':user.username}) }}">{{ user.username }}</a></th>
+						     <td class="text-primary intrm">{{ user.email }}</td>
+						     <td class="text-primary intrm">{{ user.createdAt | date('d/m/Y')  }} à {{user.createdAt | date('H:i') }}</td>
+						     <td class="admin-action-button">
+						     	<a type="button" class="admin-remove" href="{{ path('admin_user_remove',{'id':user.id}) }}">Supprimer</a>
+						     </td>
+
+						 </tr>
+						{% endfor %}
+			
+					</tbody>
+				</table>
+
+				<div class="navigation-admin">
+		   			 {{ knp_pagination_render(refPaginator) }}				  
+				</div>	
+				
+		</section>

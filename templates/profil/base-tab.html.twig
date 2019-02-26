@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil de {{ app.user.username }}{% endblock %}
+
+{% block body %}
+
+	<section id="profil">
+		<div class="container">
+			{% include 'profil/identity.html.twig' %}
+
+			<div class="profil-body">
+			{% block menu %}{% endblock %}
+
+			{% block content %}{% endblock %}
+			</div>
+
+		</div>
+	</section>
+
+	{% block lastsection %}{% endblock %}
+
+
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Edition {% endblock %}
+
+{% block body %}
+
+	<section id="conversation">
+
+		<div class="container">
+
+			<h1>Sujet : {{topic.title}}</h1>
+
+			<div class="mb-4">
+				<a class="btn btn-success" href="{{ path('admin_topics')}}"><i class="fas fa-arrow-left"></i> Accueil édition</a>
+
+				<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#topic-cible">Supprimer</button>
+			</div>
+
+			<!-- Modal topic-->
+			{% set varsTopic = {
+				'targetButton': 'topic-cible',
+				'modalTitle': 'Suppression de la conversation',
+				'modalBody': 'Voulez-vous supprimer définitivement la conversation ?',
+				'route': 'admin_topic_remove',
+				'ref': topic.id,
+			} %}
+			{% include 'admin/forum/modal.html.twig' with varsTopic %}	
+
+			{# boucle de réactions : messages #}
+			{% for reaction in topic.reactions %}
+
+				<article class="article-forum mb-4">
+					<div class="metadata">
+						<h4>
+							{{ reaction.author.username }}
+						</h4>
+						<p>
+							Ecrit le {{reaction.createdAt | date('d/m/Y') }} à {{reaction.createdAt | date('H:i') }}
+						</p>
+					</div>
+					<div class="content mt-3">
+						{{reaction.content | raw}}
+					</div>
+					<div>
+						<a href="{{ path('admin_comment_edit',{'id':reaction.id}) }}" class="btn btn-success">Editer</a>
+						<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">Supprimer</button>
+						{% set signal = true %}
+						{% for signalement in reaction.signalements %}
+							{% if signalement.reaction.id==reaction.id %}
+									{% set signal = false %}
+								{% endif %}
+						{% endfor %}
+						{% if signal == false %}
+								<span class="badge badge-danger">Commentaire signalé</span>
+						{% endif %}
+
+						<div>
+						 <span class="badge badge-info mt-2 mb-2">{{ reaction.reactionlikes | length }} likes</span>
+						 {% if reaction.reactionlikes | length > 0%}
+							 <span class="ml-2">liké par : 
+							 	{% for like in reaction.reactionlikes %}
+							 		{{ like.user.username }}
+							 	{% endfor %}
+							 </span>
+						 {% endif %}
+						</div>
+
+						<!-- Modal reaction-->
+						{% set varsReaction = {
+							'targetButton': 'exampleModal',
+							'modalTitle': 'Suppression du message',
+							'modalBody': 'Voulez-vous supprimer définitivement le message ?',
+							'route': 'admin_comment_remove',
+							'ref': reaction.id,
+						} %}
+						{% include 'admin/forum/modal.html.twig' with varsReaction %}
+
+					</div>
+					
+				</article>
+
+			{% endfor %}
+
+			<button type="button" class="btn btn-warning mb-4" data-toggle="modal" data-target="#topic-cible">Supprimer</button>
+
+		</div>
+
+	</section>
+
+{% endblock %}
+
+
+
+{% block javascripts %}
+	<script src="{{ asset('bundles/fosckeditor/ckeditor.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,191 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{topic.title}} {% endblock %}
+{% block description %}Discussion à propos de '{{ topic.title }}' sur Steven For Ever {%endblock%}
+
+{% block body %}
+
+
+	<section id="conversation">
+		
+		<div class="container">
+
+			<h1>Sujet : {{topic.title}}</h1>
+
+			{% set route = path('security_registration') %}
+
+			{% if app.user %}
+				{% set route = path('forum_create') %}
+			{% endif %}		
+	
+			<div class="mb-4">
+				<a class="btn btn-success" href="{{ path('forum_category',{'slug':topic.category.slug}) }}"><i class="fas fa-arrow-left"></i> Forum {{topic.category.category}} </a>
+
+				<a class="btn btn-success" href="{{ route }}">Nouveau sujet</a>
+
+				{% if app.user==topic.author %}
+					<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">Supprimer sujet</button>
+				{% endif %}
+			</div>
+
+			{# boucle de réactions : messages #}
+			{% for reaction in reactions %}
+
+			<article class="article-forum mb-4">
+
+				<div class="metadata">
+					<h4>
+	
+						{% if reaction.author.userImage %}
+							<a href="{{ path('profil_public',{'username':reaction.author.username}) }}">
+								<img id="avatar-profil" src="{{ asset('uploads/images/' ~ reaction.author.userImage.thumbnail) }}" alt="avatar"/>
+							</a>
+						{% else %}
+							<span><i class="fas fa-user"></i></span>	
+						{% endif %}						
+
+						<a href="{{ path('profil_public',{'username':reaction.author.username}) }}">{{ reaction.author.username }}</a>
+					</h4>
+					<p>
+						Ecrit le 
+						<time datetime="{{ reaction.createdAt | date('Y-m-d') }}">
+							{{reaction.createdAt | date('d/m/Y') }} 
+						</time>
+						à {{reaction.createdAt | date('H:i') }}
+					</p>
+				</div>
+
+				<div class="content mt-3">
+					{{reaction.content | raw}}
+				</div>
+
+				<div>
+					{% if app.user %}
+						{% if app.user.username==reaction.author.username %}
+							<a href="{{ path('forum_comment_edit',{'id':reaction.id}) }}" class="btn btn-success">Editer</a>
+							<a href="{{ path('forum_comment_remove',{'id':reaction.id}) }}" class="btn btn-warning">Supprimer</a>
+						{% else %}
+							{% set signal = true %}
+							{% for signalement in reaction.signalements %}
+								{% if signalement.reaction.id==reaction.id and signalement.user.username==app.user.username %}
+									{% set signal = false %}
+								{% endif %}
+							{% endfor %}
+							{% if signal %}
+								<a href="{{ path('forum_signal',{'id':reaction.id})}}" class="btn btn-warning">Signaler</a>
+							{% else %}
+								<span class="badge badge-danger">Commentaire signalé</span>
+							{% endif %}
+							
+						{% endif %}
+					{% endif %}
+
+				</div>	
+
+				{#like/delike#}
+				<div>
+					<a href="{{ path('reaction_like',{'id':reaction.id}) }}" class="btn btn-link reaction-like">
+						{% if app.user and reaction.isLikedByUser(app.user) %}
+							<i class="fas fa-thumbs-up"></i>{#pour user#}
+						{% else %}
+							<i class="far fa-thumbs-up"></i>{#pour non user#}
+						{% endif %}
+
+						<span class="reaction-likes">{{ reaction.reactionLikes | length}}</span>
+                        <span class="reaction-likes-label">J'aime</span>	
+					</a> 	
+
+					<!--modale -->
+					<div class="modal fade" id="myModal" role="dialog">
+					    <div class="modal-dialog">
+						    <!-- Modal content-->
+						    <div class="modal-content">
+						        <div class="modal-header">         
+						          <h4 class="modal-title">Connectez-vous au site et likez !</h4>
+						          <button type="button" class="close" data-dismiss="modal">&times;</button>
+						        </div>
+						        <div class="modal-body">
+						          Voulez-vous vous connecter ?
+						        </div>
+						        <div class="modal-footer">
+						          <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+						 		  <a type="button" class="btn btn-success" href="{{ path('security_login') }}">Se connecter</a>         
+						        </div>
+						    </div>
+					    </div>
+					</div>					
+					<!-- fin modale -->									
+				</div>			
+			</article>
+
+			{% endfor %}
+
+			<div class="navigation">
+				{{ knp_pagination_render(reactions) }}
+			</div>
+			
+			<div>
+				<a class="btn btn-success mt-4" href="{{ route }}">Nouveau sujet</a>
+				{% if app.user==topic.author %}
+				<button type="button" class="btn btn-warning mt-4" data-toggle="modal" data-target="#exampleModal">Supprimer sujet</button>
+				{% endif %}		
+			</div>
+		
+		</div>
+		
+	</section>
+
+	<section id="conversation-response">
+
+		{# formulaire de réponse pour l'utilisateur connecté#}
+		<div class="container mt-5">
+	
+			{% if app.user %}
+				<h2>Réponse de {{ app.user.username}}</h2>
+				{{ form_start(reactionForm) }}
+
+					{{ form_row(reactionForm.content) }}
+
+					<button type="submit" class="btn btn-success">Poster</button>
+
+				{{ form_end(reactionForm) }}
+
+			{% else %}
+					<h2>Répondre</h2>
+					<p>Vous ne pouvez pas répondre si vous n'êtes pas connecté</p>
+					<a href="{{ path('security_login') }}">Connexion</a>
+			{% endif %}
+
+		</div>
+
+	</section>
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Suppression de la conversation</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        Voulez-vous supprimer définitivement la conversation ?
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+	        <a type="button" class="btn btn-warning" id="supp-talk" href="{{ path('forum_topic_remove',{'id':topic.id}) }}">Supprimer</a>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	
+
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset('bundles/fosckeditor/ckeditor.js') }}"></script>
+{% endblock %}

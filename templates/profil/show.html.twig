@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Messagerie {% endblock %}
+
+{% block body %}
+
+	<section class="container" id="read-mail">
+
+		<div class="mt-4">
+			<a class="btn btn-success text-white" href="{{ path('profil_mail_reception') }}"><i class="fas fa-envelope"></i> Boite de réception</a>
+			<a class="btn btn-success text-white" href="#repondre">Répondre</a>
+			<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">Supprimer</button>
+		</div>
+
+		{# boucle de la conversation  #}
+
+		{% for message in messages %}
+
+			{#-- distinguer par couleur les messages où l'user est l'émetteur et où user est recepteur --#}
+			{% set couleur = 'mail-by-me' %}
+			{% if app.user.username == message.author.username%}
+				{% set couleur = 'mail-by-you' %}
+			{% endif %}
+
+			<article class="article-mail mt-4 bg-white">
+
+				<div class="metadata-mail {{ couleur }}">
+
+					<p>De : <span class="text-white"><b>{{ message.author.username }}</b> à  
+									{% for t in message.target %}
+										{{ t.username }}
+									{% endfor %}</span> -
+								le {{message.createdAt | date('d/m/Y') }} à {{message.createdAt | date('H:i') }}
+					</p>
+					<p>Objet : <strong class="text-white">{{ message.title }}</strong></p>
+
+					{#
+					<table class="table">
+						<tbody>
+							<tr>
+								<td>De : <b class="text-primary">{{ message.author.username }}</b> à : 
+									{% for t in message.target %}
+										{{ t.username }}
+									{% endfor %} -
+								le {{message.createdAt | date('d/m/Y') }} à {{message.createdAt | date('H:i') }}</td>
+							</tr>
+							<tr>
+								<td>Objet : <strong class="text-primary">{{ message.title }}</strong></td>
+							</tr>						
+						</tbody>
+					</table>
+					#}
+				</div>
+
+				<div class="content-mail">
+					<p><span class="mention-title">Message : </span></p>
+					<p>{{ message.content | raw }}</p>
+				</div>
+			</article>
+
+		{% endfor %}
+
+	</section>
+
+	<section class="container" id="answer-mail">
+
+	
+	<h4 class="mt-4" id="repondre">Répondre : </h4>
+
+		<section>
+			{{form_start(messageForm)}}
+
+			{{form_row(messageForm.title, {'label':'Objet', 'attr':{
+				'placeholder':titleLastMessage
+			}} )}}
+
+			{{ form_row(messageForm.target,{
+				'value':idLastAuthor
+			}) }}
+
+			{{ form_row(messageForm.content)}}
+
+			<button type="submit" class="btn btn-success">Répondre</button>
+			{{form_end(messageForm)}}
+
+		</section>
+
+		<button type="button" class="btn btn-warning mt-4" data-toggle="modal" data-target="#exampleModal">Supprimer</button>
+
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Suppression de la conversation</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        Voulez-vous supprimer définitivement la conversation ?
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+		        <a type="button" class="btn btn-warning" id="supp-talk" href="{{ path('profil_conversations_remove',{'id':messages[0].conversation.id}) }}">Supprimer</a>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+	
+
+
+{% endblock %}

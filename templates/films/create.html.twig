@@ -1,0 +1,136 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Edition {% endblock %}
+
+{% block body %}
+	{#<h1>{{titre}}</h1>#}
+
+	<div class="container" id="work-topic">
+
+		<h1>
+			{% if editMode %}
+				Modification d'une fiche film
+			{% else %}
+				Création d'une fiche film
+			{% endif %}
+		</h1>
+
+		<div class="mb-4">
+			<a class="btn btn-success" href="{{ path('admin_content',{'slug':'films'}) }}"><i class="fas fa-arrow-left"></i> Accueil édition</a>
+
+			{% if editMode %}
+				<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">Supprimer fiche film</button>
+
+				 <!-- Modal -->
+				<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabel">Suppression de la fiche film</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      <div class="modal-body">
+				        Voulez-vous supprimer définitivement la fiche film ?
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+				        <a type="button" class="btn btn-warning" id="supp-talk" href="{{ path('film_remove',{'id':film.id}) }}">Supprimer</a>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+
+			{% endif %}
+			
+		</div>		
+
+		<div class="mt-5">
+
+			{{ form_start(formFilm) }}
+
+				{{ form_row(formFilm.title, {
+					'label':'Titre du film',
+					'attr':{
+						'placeholder':'Votre titre ...'
+					}
+				}) }}
+
+				{{ form_row(formFilm.year) }}
+
+				{#--image--#}
+
+				{{ form_row(formFilm.image) }}
+				
+				{% set imageFilm='' %}
+				{% set distances='' %}
+
+				{% if (urlImage | length)> 0 %}
+					{% set imageFilm=asset('uploads/images/films/'~ urlImage) %}
+					{% set distances='pt-3 pb-3' %}
+				{% endif %}
+
+				{#--affichage image--#}
+				<div id="apercu" class="{{ distances }}">
+						<img id="imgpreview" src="{{ imageFilm }}"/>
+				</div>
+
+				{#--fin image--#}				
+
+				<div class="form-group">
+				    <label for="editor">Pitch</label>
+					<textarea id="editor" name="editor">
+					{{ film.content }}
+					</textarea>
+				</div>
+
+				{{ form_row(formFilm.description, {
+					'label':'Description de la fiche film',
+					'attr':{
+						'placeholder':'Votre description ...'
+					}
+				}) }}	
+
+				{{ form_row(formFilm.authorPseudo, {
+					'label':'Nom d\'auteur à afficher',
+					'attr':{
+							'placeholder':app.user.username
+						}					
+				}) }}
+
+				{{ form_row(formFilm.status, {
+					'label':'Etat',
+				}) }}	
+
+				{{ form_row(formFilm.publishedAt, {
+					'label':'Date de publication',
+				}) }}					
+
+				<button type="submit" class="btn btn-success mt-4">
+					{% if editMode %}
+						Enregistrer les modifications
+					{% else %}
+						Enregistrer la fiche film
+					{% endif %}
+				</button>				
+
+			{{ form_end(formFilm) }}
+
+		</div>
+
+	</div>
+		
+	
+{% endblock %}
+
+{% block javascripts %}
+    <script src="//cdn.ckeditor.com/4.5.6/full-all/ckeditor.js"></script>
+    {% include "@CKSourceCKFinder/setup.html.twig" %}
+
+	<script>
+    	var editor = CKEDITOR.replace( 'editor' );
+   	 CKFinder.setupCKEditor( editor );
+	</script>
+{% endblock %}
+

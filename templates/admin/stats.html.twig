@@ -1,0 +1,99 @@
+{% extends '/admin/base-admin.html.twig' %}
+
+
+	{% block stylesheetsadmin %}
+		<link rel="stylesheet" type="text/css" href="https://www.highcharts.com/media/com_demo/css/highslide.css" />	
+	{% endblock %}
+
+	{% block sectionadmin %}
+
+		<section  id="admin-stats">
+
+			<div>
+				<h4 class="text-white p-2">Tableau récapitulatif : </h4>
+				<table class="table table-bordered col-md-4 mt-3">
+
+				  	 <tbody>
+						<tr>
+							<th scope="row">Utilisateurs</th>
+						    <td>{{ nUsers }}</td>
+						</tr>
+						<tr>
+							<th scope="row">Catégories</th>
+						    <td>{{ nCategories }}</td>
+						</tr>
+						<tr>
+							<th scope="row">Topics</th>
+						    <td>{{ nTopics }}</td>
+						</tr>
+						<tr>
+							<th scope="row">Messages</th>
+						    <td>{{ nReactions }}</td>
+						</tr>
+						<tr>
+							<th scope="row">Likes</th>
+						    <td>{{ nLikes }}</td>
+						</tr>	
+						<tr>
+							<th scope="row">Signalements</th>
+						    <td>{{ nSignals }}</td>
+						</tr>																				
+
+					</tbody>
+
+				</table>
+			</div>
+
+			<div class="mt-4">
+				<h4 class="text-white p-2">Représentations graphiques de la vitalité du site : </h4>
+
+				{# input de recherche d'une année #}
+				<div class="mt-5 mb-4" id="block-graph-year">
+				   <form id="graph-year">
+				    	<input name="query-user" type="number" id="graph-year-input" value="{{ "now"|date("Y") }}" min="2017" max="2025"/>
+
+						<button type="button" id="validation-graph-search" class="btn btn-success ml-2">Chercher données pour une année</button>
+
+				    </form>		
+				</div>
+				{# FIN input de recherche d'une année #}	
+
+				<h5 class="mt-4 mb-4 bg-secondary p-2">Inscriptions</h5>
+				<div id="graphUsers" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+				<h5 class="mt-4 mb-4 bg-secondary p-2">Vitalité du forum</h5>
+				<div id="graphForum" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+				<div id="graphCreator" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+				<div id="graphImplication" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+				<div id="graphTopicsCategory" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+				<div id="graphReactionsCategory" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+				<h5 class="mt-4 mb-4 bg-secondary p-2">Les utilisateurs actifs sur le forum</h5>
+				<div class="row mt-4 mb-4">
+					<div class="col-lg-6" id="chartTopics" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+					<div class="col-lg-6" id="chartReactions" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+				</div>
+
+				<div class="row mt-4 mb-4">
+					<div class="col-lg-4" id="chartLikes" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+					<div class="col-lg-4" id="chartSignaleurs" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+					<div class="col-lg-4" id="chartSignaled" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+				</div>
+			</div>
+
+		</section>		
+	{% endblock %}
+
+	
+	{% block javascriptsadmin %}
+		{# highcharts #}
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/modules/data.js"></script>
+		<script src="https://code.highcharts.com/modules/series-label.js"></script>
+		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+		<script src="https://code.highcharts.com/modules/export-data.js"></script>
+		<!-- Additional files for the Highslide popup effect -->
+		<script src="https://www.highcharts.com/media/com_demo/js/highslide-full.min.js"></script>
+		<script src="https://www.highcharts.com/media/com_demo/js/highslide.config.js" charset="utf-8"></script>
+
+		{#  perso dédié à graph #}
+		<script src="{{ asset('assets/js/js-graph.js') }}"></script>	
+	{% endblock %}	

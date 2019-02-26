@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Edition {% endblock %}
+
+{% block body %}
+
+	<div class="container" id="work-topic">
+
+		<h1>
+			{% if editMode %}
+				Modification d'une fiche album
+			{% else %}
+				Création d'une fiche album
+			{% endif %}
+		</h1>
+
+		<div class="mb-4">
+			<a class="btn btn-success" href="{{ path('admin_content',{'slug':'music'}) }}"><i class="fas fa-arrow-left"></i> Accueil édition</a>
+
+			{% if editMode %}
+				<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">Supprimer fiche album</button>
+
+				 <!-- Modal -->
+				<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabel">Suppression de la fiche album</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      <div class="modal-body">
+				        Voulez-vous supprimer définitivement la fiche album ?
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+				        <a type="button" class="btn btn-warning" id="supp-talk" href="{{ path('music_remove',{'id':music.id}) }}">Supprimer</a>
+				      </div>
+				    </div>
+				  </div>
+				</div>				
+			{% endif %}
+		</div>		
+
+		<div class="mt-5">
+
+			{{ form_start(formMusic) }}
+
+				{{ form_row(formMusic.title, {
+					'label':"Titre de l'album",
+					'attr':{
+						'placeholder':'Votre titre ...'
+					}
+				}) }}
+
+				{{ form_row(formMusic.year) }}
+
+				{{ form_row(formMusic.playlist) }}
+
+				{#--image--#}
+
+				{{ form_row(formMusic.image) }}
+				
+				{% set imageAlbum='' %}
+				{% set distances='' %}
+
+				{% if (urlImage | length)> 0 %}
+					{% set imageAlbum=asset('uploads/images/music/'~ urlImage) %}
+					{% set distances='pt-3 pb-3' %}
+				{% endif %}
+
+				{#--affichage image--#}
+				<div id="apercu" class="{{ distances }}">
+						<img id="imgpreview" src="{{ imageAlbum }}"/>
+				</div>
+
+				{#--fin image--#}				
+
+				<div class="form-group">
+				    <label for="editor">Description</label>
+					<textarea id="editor" name="editor">
+					{{ music.content }}
+					</textarea>
+				</div>
+
+
+				{{ form_row(formMusic.description, {
+					'label':"Description de l'album",
+					'attr':{
+						'placeholder':'Votre description ...'
+					}
+				}) }}	
+
+				{{ form_row(formMusic.authorPseudo, {
+					'label':'Nom d\'auteur à afficher',
+					'attr':{
+							'placeholder':app.user.username
+						}					
+				}) }}
+
+				{{ form_row(formMusic.status, {
+					'label':'Etat',
+				}) }}	
+
+				{{ form_row(formMusic.publishedAt, {
+					'label':'Date de publication',
+				}) }}				
+
+				<button type="submit" class="btn btn-success mt-4">
+					{% if editMode %}
+						Enregistrer les modifications
+					{% else %}
+						Enregistrer la fiche album
+					{% endif %}
+				</button>				
+
+			{{ form_end(formMusic) }}
+
+		</div>
+
+	</div>
+		
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="//cdn.ckeditor.com/4.5.6/full-all/ckeditor.js"></script>
+    {% include "@CKSourceCKFinder/setup.html.twig" %}
+
+	<script>
+    	var editor = CKEDITOR.replace( 'editor' );
+   	 CKFinder.setupCKEditor( editor );
+	</script>
+{% endblock %}
+
+

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Musique {% endblock %}
+{% block description %} {{user_management.descrMusic}} {%endblock%}
+
+{% block body %}
+
+
+	<section id="music">
+
+		<div class="container pb-4">
+			<h1 class="text-align mb-4">Musique</h1>
+
+			{# debut boucle #}
+			{% for album in music %}
+
+				<article class="ml-2 mr-4 mb-5">
+					<h3 class="text-white">{{album.title}} ({{album.year}})</h3>
+					<div class="row album">
+						<div class="col-md-6">
+							<a href="{{path('music_show',{'id':album.id,'titleUrl':album.titleUrl})}}"><img  src="{{ asset('uploads/images/music/'~album.thumbnail) }}" alt="{{album.title}}" class="thumbnail-music"/></a>
+						</div>
+
+						{% if album.playlist %}
+						<div class="col-md-6 playlist-music embed-responsive embed-responsive-16by9">
+							<iframe src="https://www.youtube.com/embed/{{album.playlist}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen class="embed-responsive-item"></iframe>	
+						</div>	
+						{% endif %}	
+					</div>
+				</article>			
+
+			{% endfor %}
+			{# fin boucle #}
+
+		</div>
+	</section>
+
+
+{% endblock %}

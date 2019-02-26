@@ -1,0 +1,68 @@
+{% extends 'profil/base-tab.html.twig' %}
+
+{% block menu %}
+
+
+	<ul class="nav nav-tabs">
+	  <li class="nav-item">
+	    <a class="nav-link" href="{{ path('profil') }}">Infos</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link active show" data-toggle="tab" href="#topics">Sujets</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="{{ path('profil_comments') }}">Commentaires</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="{{ path('profil_comments_contents') }}">Commentaires hors forum</a>
+	  </li>		  
+	</ul>
+
+{% endblock %}
+
+{% block content %}	
+
+	<div id="myTabContent" class="tab-content">
+
+
+	  <div class="tab-pane fade active show" id="profil-topics">
+	  	
+	  	<h4 class="mb-4 mt-4">{{ nbTopicsTotal }} sujets</h4>
+		<table class="table table-hover table-bordered table-striped">
+
+			<thead>
+			    <tr>
+			      <th scope="col">Sujet</th>
+			      <th scope="col" class="intrm">Catégorie</th>
+			      <th scope="col" class="intrm">Nb messages</th>
+			      <th scope="col" class="intrm">Date</th>
+			      <th scope="col" class="intrm">Suppression</th>
+			    </tr>
+		  	</thead>
+
+		  	<tbody>
+		  		{% for topic in topics %}
+		  	 		<tr>
+					     <th scope="row"><a href="{{ path('forum_topic',{'slug':topic.category.slug, 'id':topic.id,'titleUrl':topic.titleUrl}) }}">{{ topic.title }}</a></th>
+					     <td class="intrm">{{ topic.category.slug}}</td>	
+					     <td class="intrm">{{ topic.reactions | length}}</td>							     
+					     <td class="intrm">{{ topic.createdAt | date('d/m/Y')  }} à {{ topic.createdAt | date('H:i')  }}</td> 
+			     		 <td class="profil-topic-supp intrm">
+					     	<a type="button" class="btn btn-warning"  href="{{ path('forum_topic_remove',{'id':topic.id}) }}">Supprimer</a>
+					     </td> 	 		
+		  	 		</tr>
+	  			{% endfor %}
+	  		</tbody>
+
+	  	</table>
+
+		<div class="navigation">
+		    {{ knp_pagination_render(topics) }}
+		</div>
+
+		<a class="btn btn-success mb-4" href="{{ path('forum_create') }}">Nouveau sujet</a>
+	  </div>
+
+	</div>
+
+{% endblock %}

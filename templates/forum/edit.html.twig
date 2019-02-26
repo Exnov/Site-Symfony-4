@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Edition {% endblock %}
+
+{% block body %}
+
+	<div class="container" id="work-topic">
+
+		<h1>Modifier le message : </h1>
+
+		{# formulaire d'edition pour l'utilisateur connecté#}
+		<div class="mt-5">
+
+			{{ form_start(reactionForm) }}
+
+				{{ form_row(reactionForm.content) }}
+
+				<button type="submit" class="btn btn-success">Modifier</button>
+				
+			{{ form_end(reactionForm) }}
+
+			<button type="button" class="btn btn-warning mt-4" data-toggle="modal" data-target="#exampleModal">Supprimer</button>
+
+		</div>
+
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Suppression de la conversation</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        Voulez-vous supprimer définitivement le message ?
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+	        <a type="button" class="btn btn-warning" id="supp-talk" href="{{ path('forum_comment_remove',{'id':reaction.id}) }}">Supprimer</a>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset('bundles/fosckeditor/ckeditor.js') }}"></script>
+{% endblock %}

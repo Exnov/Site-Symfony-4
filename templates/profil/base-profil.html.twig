@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Profil de {{user.username}} {% endblock %}
+
+{% block body %}
+
+	<div class="container profil-public">
+
+		<div class="identity">
+			<h1 class="mt-2">
+				{% if user.userImage %}
+					<a href="{{ asset('uploads/images/' ~ user.userImage.image) }}" id="ancre-avatar-medium">
+						<img id="avatar-medium" src="{{ asset('uploads/images/' ~ user.userImage.thumbnail) }}" alt="avatar" 
+						/>
+					</a>
+				{% else %}
+					<span><i class="fas fa-user"></i></span>	
+				{% endif %}
+				Profil de {{user.username}}
+			</h1>
+		</div>
+
+		{# autorisation d'affichage pour les commentaires signalés uniquement l'administrateur#}
+		{% set autorisation = false %}
+		{% if app.user and app.user.roles[0]=='ROLE_XXXXX' %}
+			{% set autorisation = true %}
+		{% endif %}
+
+		<div class="implication">
+
+			<section id="activity-user" class="mt-5 mb-5">
+				<h4>Activité : </h4>
+				
+				{#tableau#}
+				{#----------------------------------------------------#}
+				{#calcul du nombre de jours depuis la création du compte#}
+				{% set difference = date(user.createdAt | date('Y/m/d')).diff(date('now' | date('Y/m/d'))) %}
+				{% set leftDays = difference.days %}
+
+				<table class="table table-hover table-bordered table-striped">
+	
+				  	 <tbody>
+						<tr>
+						     <th scope="row">Membre depuis :</th>
+						     <td>{{user.createdAt | date('d/m/Y') }} ({{leftDays}} jours)</td>
+						</tr>
+						<tr>
+						     <th scope="row">Création topics :</th>
+						     <td>{{ user.topics | length }} topics</td>
+						</tr>						
+						<tr>
+						     <th scope="row">Messages forum :</th>
+						     <td>{{ user.reactions | length }} messages</td>
+						</tr>
+						<tr>
+						     <th scope="row">Messages hors forum :</th>
+						     <td>{{ user.critics | length }} messages</td>
+						</tr>						
+						<tr>
+						     <th scope="row">Messages likés par {{user.username}} :</th>
+						     <td>{{ user.reactionLikes | length + user.criticLikes | length}} likes</td>
+						</tr>												
+					</tbody>
+
+				</table>
+				{#----------------------------------------------------#}
+
+			</section>
+
+			<section id="contributions-user">
+				<h4>Contributions : </h4>
+
+				{% block menu %}{% endblock %}
+
+				{% block content %}{% endblock %}
+
+			</section>
+		</div>
+
+	</div>
+
+{% endblock %}

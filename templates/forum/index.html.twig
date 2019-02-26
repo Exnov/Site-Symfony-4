@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Forums{% endblock %}
+{% block description %} {{user_management.descrForums}} {%endblock%}
+
+{% block body %}
+
+	<section id="forums">
+
+		<div class="container">
+			<h1>Forum</h1>
+
+			<table class="table table-hover table-bordered table-striped mt-4">
+				<thead>
+				    <tr>
+				      <th scope="col">Rubriques</th>
+				      <th scope="col" class="intrm">Nbre sujets</th>
+				      <th scope="col" class="intrm">Nb messages</th>
+				      <th scope="col" class="intrm">Dernier message</th>
+				    </tr>
+			  	</thead>			
+				<tbody>
+					{% for category in categories %}
+					<tr>
+						<th scope="row">
+							<a href="{{ path('forum_category',{'slug':category.slug}) }}">{{ category.category }}</a>
+						</th>
+						<td class="intrm">	
+							{{ category.nbTopics}}
+						</td>
+						<td class="intrm">	
+							{{ category.nbReactions}}
+						</td>	
+						<td class="intrm">
+							{% if category.lastReaction!= null%}
+								<a href="{{ path('forum_topic',{'slug':category.lastReaction.topic.category.slug, 'id':category.lastReaction.topic.id,'titleUrl':category.lastReaction.topic.titleUrl}) }}">
+								{{ category.lastReaction.topic.title | raw}}
+								</a>
+							{% endif %}
+						</td>
+					</tr>				
+					{% endfor %}
+				</tbody>
+			</table>
+
+		</div>
+
+	</section>
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+		<section id="conversation">	
+
+			<div class="container">
+
+				<h1 >Signalement</h1>
+
+				<div class="mb-4">
+					<a class="btn btn-success" href="{{ path('forum_topic',{'slug':reaction.topic.category.slug, 'id':reaction.topic.id,'titleUrl':reaction.topic.titleUrl}) }}"><i class="fas fa-arrow-left"></i> Sujet : {{reaction.topic.title}}</a>	
+				</div>
+
+				{# message à signaler #}
+				<article class="article-forum mb-4">
+					<div class="metadata">
+						<h4>
+							{% if reaction.author.userImage %}
+								<a href="{{ asset('uploads/images/' ~ reaction.author.userImage.image) }}">
+									<img id="avatar-profil" src="{{ asset('uploads/images/' ~ reaction.author.userImage.thumbnail) }}" alt="avatar"/>
+								</a>
+							{% else %}
+								<span><i class="fas fa-user"></i></span>	
+							{% endif %}	
+
+							<a href="{{ path('profil_public',{'username':reaction.author.username}) }}">{{ reaction.author.username }}</a>
+						</h4>
+						<p>
+							Ecrit le {{reaction.createdAt | date('Y/m/d') }} à {{reaction.createdAt | date('H:i') }}
+						</p>
+					</div>
+					<div class="content mt-3">
+						{{reaction.content | raw}}
+					</div>			
+				</article>
+
+			</div>
+
+		</section>
+
+		<section id="conversation-response">
+			{# formulaire de signalement #}
+			<div class="container mt-5">
+
+				<h2>Dites-nous ce qui vous dérange dans le post de {{reaction.author.username}}</h2>
+				{{ form_start(signalementForm) }}
+
+				{{ form_row(signalementForm.content) }}
+
+				<button type="submit" class="btn btn-success">Poster</button>
+
+				{{ form_end(signalementForm) }}
+
+
+			</div>
+		</section>
+
+{% endblock %}

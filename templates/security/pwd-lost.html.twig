@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Connexion {% endblock %}
+
+{% block topbody %} <body class="bg-connexion" style="background-image: url({{user_management.bgConnexion}});"> {% endblock %}
+	
+{% block body %}
+		<section id="connexion">
+
+			<div class="container pb-4">
+				<h1 class="mb-4">Mot de passe perdu</h1>
+
+			
+				<div id="form-connexion">
+
+					{% if confirmation %}
+					<p id="envoi-confirmation">{{confirmation}}</p>
+					{% endif %}
+
+					<div>
+				        <p id="subscribe-invite">
+				           Renseignez votre adresse email et vous recevrez un lien pour rétablir votre mot de passe
+				        </p>
+	                            
+					</div>						
+
+					<form action="" method="post" action="security_pwd_lost">
+						<div class="form-group mt-4">
+							<input type="email" class="form-control" placeholder="Adresse email ..." name="_username" required/>
+						</div>
+						<div class="form-group pt-3">
+							<button type="submit" class="btn btn-success">Envoyez !</button>
+						</div>		
+					</form>
+
+
+				</div>
+				
+
+			</div>
+		</section>
+{% endblock %}
