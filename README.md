@@ -1,4 +1,4 @@
-# p5
+# Site Symfony 4
 Projet libre d'application web utilisant HTML, CSS, JS, PHP et SQL.
 
 ## Orientation
